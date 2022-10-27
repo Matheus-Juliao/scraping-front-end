@@ -10,14 +10,26 @@
     <div class="text-center m-2">
         <select name="model" class="form-control-sm text-center" (change)="modelYearCar(form)" aria-label="Digite ou selecione o modelo do veículo" ngModel [disabled]="hideModels">
             <option value="" disabled selected>Digite ou selecione o modelo do veículo</option>
-            <option *ngFor="let item of models; let i=index" [value]="item.Value">{{ item.Label }}</option>
+            <option *ngFor="let item of models" [value]="item.Value">{{ item.Label }}</option>
         </select>
     </div>
 
     <div class="text-center m-2">
         <select name="year" class="form-control-sm text-center" (change)="modelYearCar(form)" aria-label="Digite ou selecione o ano modelo do veículo" ngModel [disabled]="hideYears">
             <option value="" disabled selected>Digite ou selecione o ano modelo do veículo</option>
-            <option *ngFor="let item of years; let i=index" [value]="item.Value">{{ item.Label }}</option>
+            <option *ngFor="let item of years" [value]="item.Value">{{ item.Label }}</option>
+        </select>
+    </div>
+
+    <div class="text-center m-2">
+        <select name="initialReference" class="form-control-sm text-center" (change)="modelYearCar(form)" aria-label="Mês e ano de referência inicial" ngModel [disabled]="hideYears">
+            <option value="" disabled selected>Mês e ano de referência inicial</option>
+            <option *ngFor="let item of reference;" [value]="item.Codigo">{{ item.Mes }}</option>
+        </select>
+
+        <select name="finalReference" class="form-control-sm text-center" (change)="modelYearCar(form)" aria-label="Mês e ano de referência final" ngModel [disabled]="hideYears">
+            <option value="" disabled selected>Mês e ano de referência final</option>
+            <option *ngFor="let item of reference" [value]="item.Codigo">{{ item.Mes }}</option>
         </select>
     </div>
 
