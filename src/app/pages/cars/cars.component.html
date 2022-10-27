@@ -1,0 +1,40 @@
+<app-loading *ngIf="showLoanding" ></app-loading>
+<form class="card" #form="ngForm" (ngSubmit)="onSubmit(form)">
+    <div class="text-center m-2">
+        <select name="brand" class="form-control-sm text-center" (change)="brandCar(form)" aria-label="Digite ou selecione a marca do veiculo" ngModel>
+            <option value="" disabled selected>Digite ou selecione a marca do veiculo</option>
+            <option *ngFor="let item of brands" [value]="item.Value">{{ item.Label }}</option>
+        </select>
+    </div>
+
+    <div class="text-center m-2">
+        <select name="model" class="form-control-sm text-center" (change)="modelYearCar(form)" aria-label="Digite ou selecione o modelo do veículo" ngModel [disabled]="hideModels">
+            <option value="" disabled selected>Digite ou selecione o modelo do veículo</option>
+            <option *ngFor="let item of models; let i=index" [value]="item.Value">{{ item.Label }}</option>
+        </select>
+    </div>
+
+    <div class="text-center m-2">
+        <select name="year" class="form-control-sm text-center" (change)="modelYearCar(form)" aria-label="Digite ou selecione o ano modelo do veículo" ngModel [disabled]="hideYears">
+            <option value="" disabled selected>Digite ou selecione o ano modelo do veículo</option>
+            <option *ngFor="let item of years; let i=index" [value]="item.Value">{{ item.Label }}</option>
+        </select>
+    </div>
+
+    <div class="d-grid gap-2 col-2 mx-auto" >
+        <button class="btn btn-primary m-2" type="submit" [disabled]="showButton(form)">Enviar</button>
+    </div>
+
+    <div class="card" *ngIf="showTable">
+            <ul>
+                <li>Mês de referência:  {{ response.mesdereferencia }} </li>
+                <li>Código Fipe: {{ response.codigoFipe }} </li>
+                <li>Marca: {{ response.marca }} </li>
+                <li>Modelo: {{ response.modelo }} </li>
+                <li>Ano modelo: {{ response.anoModelo }} </li>
+                <li>Autenticação: {{ response.autenticacao }} </li>
+                <li>Data da consulta: {{ response.dataDaConsulta }} </li>
+                <li>Preço médio {{ response.precoMedio }} </li>       
+            </ul>
+    </div>
+</form>
