@@ -17,19 +17,20 @@ export class CarsComponent implements OnInit {
   public brands: { Label: string, Value: string }[] = dbBrand;
   public reference: { Codigo: number, Mes: string, Index: number }[] = dbReference;
 
-  private payload: any = { 
-    brand: undefined, 
-    model: undefined,  
-    years: undefined, 
-    initialReference: undefined, 
-    finalReference: undefined
+  public payload: any =  { 
+    brand: "", 
+    model: "",  
+    years: "", 
+    initialReference: "", 
+    finalReference: "",
+    period: [{}]
   }
 
   public showLoanding: boolean = false
   public showTable: boolean = false
   public hideModels: boolean = true
   public hideYears: boolean = true
-  public results: any
+  public results: Array<any> = []
   public response: any
   public modelsYears: any
   public dbModels: any
@@ -42,36 +43,47 @@ export class CarsComponent implements OnInit {
 
   ngOnInit(): void {
     //
-    console.log(this.reference)
-
   }
 
   public onSubmit(form: NgForm) {
     this.payload = form.value
     this.showLoanding = true
-    console.log(form.value)
 
-    //   {
-    //     "brand": "207",
-    //     "model": "8275",
-    //     "year": "1985-1",
-    //     "initialReference": "290", //Index: 262
-    //     "finalReference": "288"  //Index: 260
-    //     "period": "290" //Index: /262
-    // }
+    let iPeriodIndex: number = 0
+    let fPeriodIndex: number = 0
 
-    // const iPeriod = this.payload.Index
-    // const fPeriod = this.payload.
+    for(let i=0; i<this.reference.length; i++) {
+      if(this.reference[i].Codigo == form.value.initialReference) {
+        iPeriodIndex = i
+      }
+      if(this.reference[i].Codigo == form.value.finalReference) {
+        fPeriodIndex = i
+      }
+    }
 
+    let cont: number = fPeriodIndex - iPeriodIndex
+    let reference = []
 
+    for(let i=0; i<=cont; i++) {
+      reference[i] = this.reference[i].Codigo.toString()
+    }
+
+    this.payload.period = reference
+    this.request()
+
+  }
+
+  public request () {
     this.pagesService.postForm(this.payload).subscribe({
       next: (res: any) => {
         this.results = res
       },
       complete: () => {
         this.response = this.results
-        this.showTable = true
 
+        console.log(this.response)
+
+        this.showTable = true
         this.showLoanding = false
         this.hideModels = false
         this.hideYears = false

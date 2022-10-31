@@ -24,7 +24,7 @@
     <div class="text-center m-2">
         <select name="initialReference" class="form-control-sm text-center" (change)="modelYearCar(form)" aria-label="Mês e ano de referência inicial" ngModel [disabled]="hideYears">
             <option value="" disabled selected>Mês e ano de referência inicial</option>
-            <option *ngFor="let item of reference;" [value]="item.Codigo">{{ item.Mes }}</option>
+            <option *ngFor="let item of reference" [value]="item.Codigo">{{ item.Mes }}</option>
         </select>
 
         <select name="finalReference" class="form-control-sm text-center" (change)="modelYearCar(form)" aria-label="Mês e ano de referência final" ngModel [disabled]="hideYears">
@@ -38,15 +38,15 @@
     </div>
 
     <div class="card" *ngIf="showTable">
-            <ul>
-                <li>Mês de referência:  {{ response.mesdereferencia }} </li>
-                <li>Código Fipe: {{ response.codigoFipe }} </li>
-                <li>Marca: {{ response.marca }} </li>
-                <li>Modelo: {{ response.modelo }} </li>
-                <li>Ano modelo: {{ response.anoModelo }} </li>
-                <li>Autenticação: {{ response.autenticacao }} </li>
-                <li>Data da consulta: {{ response.dataDaConsulta }} </li>
-                <li>Preço médio {{ response.precoMedio }} </li>       
+            <ul *ngFor="let item of response; let i = index">
+                <li > Mês de referência: {{ response[i].mesdereferencia }}</li>
+                <li>Código Fipe: {{ response[i].codigoFipe }} </li>
+                <li>Marca: {{ response[i].marca }} </li>
+                <li>Modelo: {{ response[i].modelo }} </li>
+                <li>Ano modelo: {{ response[i].anoModelo }} </li>
+                <li>Autenticação: {{ response[i].autenticacao }} </li>
+                <li>Data da consulta: {{ response[i].dataDaConsulta }} </li>
+                <li>Preço médio {{ response[i].precoMedio }} </li>
             </ul>
     </div>
 </form>
