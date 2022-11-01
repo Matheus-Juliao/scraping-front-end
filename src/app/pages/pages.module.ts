@@ -8,13 +8,14 @@ import { HttpClientModule } from '@angular/common/http'
 import { HomeComponent } from './home/home.component';
 import { FormsModule } from '@angular/forms';
 import { CarsComponent } from './cars/cars.component';
-import { LoadingComponent } from './shared/loading/loading.component';
+import { LoadingComponent } from './loading/loading.component';
 import { HeaderComponent } from './shared/header/header.component';
 import { ToastComponent } from './shared/toast/toast.component';
 import { ToastModule } from 'primeng/toast';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MessageService } from 'primeng/api';
+import { TableModule } from 'primeng/table';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { MessageService } from 'primeng/api';
     CarsComponent,
     LoadingComponent,
     HeaderComponent,
-    ToastComponent
+    ToastComponent,
   ],
   imports: [
     CommonModule,
@@ -32,12 +33,12 @@ import { MessageService } from 'primeng/api';
     HttpClientModule,
     ToastModule,
     BrowserModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    TableModule
   ],
   providers: [
     MessageService
   ]
-
 })
 
 export class PagesModule { }

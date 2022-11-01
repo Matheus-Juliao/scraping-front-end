@@ -1,59 +1,165 @@
 <app-toast></app-toast>
 <app-loading *ngIf="showLoanding" ></app-loading>
+<img class="background-table" src="assets/images/background-table.png" alt="background-table">
 <form class="form" #form="ngForm" (ngSubmit)="onSubmit(form)">
-    <div class="text-center">
-        <img class="search m-1" src="assets/images/search.png" alt="imagem lupa">
-        <p>*O período Inicial deve ser menor ou igual ao período Final</p>
+    <div *ngIf="showForm">
+        <div class="text-center">
+            <img class="search m-1" src="assets/images/search.png" alt="imagem lupa">
+            <p>*O período Inicial deve ser menor ou igual ao período Final</p>
 
-        <select name="initialReference" class="form-control-lg text-center me-1 period" (change)="periodReferenceInicial(form)"  aria-label="Mês e ano de referência inicial" ngModel>
-            <option value="" disabled selected>Período Inicial</option>
-            <option *ngFor="let item of reference" [value]="item.Codigo">{{ item.Mes }}</option>
-        </select>
+            <select name="initialReference" class="form-control-lg text-center me-1 period" (change)="periodReferenceInicial(form)"  aria-label="Mês e ano de referência inicial" ngModel>
+                <option value="" disabled selected>Período Inicial</option>
+                <option *ngFor="let item of reference" [value]="item.Codigo">{{ item.Mes }}</option>
+            </select>
 
-        <select name="finalReference" class="form-control-lg text-center ms-1 period" (change)="periodReferenceFinal(form)" aria-label="Mês e ano de referência final" ngModel [disabled]="hidePeriod">
-            <option value="" disabled selected>Período Final</option>
-            <option *ngFor="let item of reference" [value]="item.Codigo">{{ item.Mes }}</option>
-        </select>
+            <select name="finalReference" class="form-control-lg text-center ms-1 period" (change)="periodReferenceFinal(form)" aria-label="Mês e ano de referência final" ngModel [disabled]="hidePeriod">
+                <option value="" disabled selected>Período Final</option>
+                <option *ngFor="let item of reference" [value]="item.Codigo">{{ item.Mes }}</option>
+            </select>
+        </div>
+
+        <div class="m-3">
+            <label>Marca</label>
+            <select name="brand" class="form-control-lg text-center select" (change)="brandCar(form)" aria-label="Digite ou selecione a marca do veiculo" ngModel [disabled]="hideBrand">
+                <option value="" disabled selected>Digite ou selecione a marca do veiculo</option>
+                <option *ngFor="let item of brands" [value]="item.Value">{{ item.Label }}</option>
+            </select>
+        </div>
+
+        <div class="m-3">
+            <label>Modelo</label>
+            <select name="model" class="form-control-lg text-center select" (change)="modelYearCar(form)" aria-label="Digite ou selecione o modelo do veículo" ngModel [disabled]="hideModels">
+                <option value="" disabled selected>Digite ou selecione o modelo do veículo</option>
+                <option *ngFor="let item of models" [value]="item.Value">{{ item.Label }}</option>
+            </select>
+        </div>
+
+        <div class="m-3">
+            <label>Ano Modelo</label>
+            <select name="year" class="form-control-lg text-center select" (change)="modelYearCar(form)" aria-label="Digite ou selecione o ano modelo do veículo" ngModel [disabled]="hideYears">
+                <option value="" disabled selected>Digite ou selecione o ano modelo do veículo</option>
+                <option *ngFor="let item of years" [value]="item.Value">{{ item.Label }}</option>
+            </select>
+        </div>
+
+        <div class="d-grid gap-2 col-6 mx-auto" >
+            <button class="btn" type="submit" [disabled]="showButton(form)">CONSULTAR</button>
+        </div>
     </div>
 
-    <div class="m-3">
-        <label>Marca</label>
-        <select name="brand" class="form-control-lg text-center select" (change)="brandCar(form)" aria-label="Digite ou selecione a marca do veiculo" ngModel [disabled]="hideBrand">
-            <option value="" disabled selected>Digite ou selecione a marca do veiculo</option>
-            <option *ngFor="let item of brands" [value]="item.Value">{{ item.Label }}</option>
-        </select>
-    </div>
+    <!-- <div class="flex export">
+        <ds-export [img]="'assets/layout/icons/document-csv.png'" [pTooltip]="'CSV'"
+            (click)="dtVehicle.exportCSV()"></ds-export>
 
-    <div class="m-3">
-        <label>Modelo</label>
-        <select name="model" class="form-control-lg text-center select" (change)="modelYearCar(form)" aria-label="Digite ou selecione o modelo do veículo" ngModel [disabled]="hideModels">
-            <option value="" disabled selected>Digite ou selecione o modelo do veículo</option>
-            <option *ngFor="let item of models" [value]="item.Value">{{ item.Label }}</option>
-        </select>
-    </div>
+        <ds-export [img]="'assets/layout/icons/document-excel.png'" [pTooltip]="'XLS'" (click)="exportExcel()">
+        </ds-export>
 
-    <div class="m-3">
-        <label>Ano Modelo</label>
-        <select name="year" class="form-control-lg text-center select" (change)="modelYearCar(form)" aria-label="Digite ou selecione o ano modelo do veículo" ngModel [disabled]="hideYears">
-            <option value="" disabled selected>Digite ou selecione o ano modelo do veículo</option>
-            <option *ngFor="let item of years" [value]="item.Value">{{ item.Label }}</option>
-        </select>
-    </div>
+        <ds-export [img]="'assets/layout/icons/document-pdf.png'" [pTooltip]="'PDF'" (click)="exportPdf()">
+        </ds-export>
+    </div> -->
 
     <div class="d-grid gap-2 col-6 mx-auto" >
-        <button class="btn" type="submit" [disabled]="showButton(form)">CONSULTAR</button>
+        <button class="btn" type="button">CONSULTAR</button>
     </div>
 
-    <div class="card" *ngIf="showTable">
-            <ul *ngFor="let item of response; let i = index">
-                <li> Mês de referência: {{ response[i].mesdereferencia }}</li>
-                <li>Código Fipe: {{ response[i].codigoFipe }} </li>
-                <li>Marca: {{ response[i].marca }} </li>
-                <li>Modelo: {{ response[i].modelo }} </li>
-                <li>Ano modelo: {{ response[i].anoModelo }} </li>
-                <li>Autenticação: {{ response[i].autenticacao }} </li>
-                <li>Data da consulta: {{ response[i].dataDaConsulta }} </li>
-                <li>Preço médio {{ response[i].precoMedio }} </li>
-            </ul>
-    </div>
+    <table *ngIf="!showForm" class="table caption-top" aria-describedby="table">
+        <tbody>
+            <tr>
+                <th scope="row">Mês de referência</th>
+                <td>outubro de 2022</td>
+            </tr>
+            <tr>
+                <th scope="row">Código Fipe</th>
+                <td>038001-6</td>
+            </tr>
+            <tr>
+                <th scope="row">Marca</th>
+                <td>Acura</td>
+            </tr>
+            <tr>
+                <th scope="row">Ano modelo</th>
+                <td>1995 Gasolina</td>
+            </tr>
+            <tr>
+                <th scope="row">Autenticação</th>
+                <td>wcg81x9mqy</td>
+            </tr>
+            <tr>
+                <th scope="row">Data da consulta</th>
+                <td>terça-feira, 1 de novembro de 2022 16:09</td>
+            </tr>
+            <tr>
+                <th scope="row">Preço médio</th>
+                <td>R$ 45.046,00</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table *ngIf="!showForm" class="table caption-top" aria-describedby="table">
+        <tbody>
+            <tr>
+                <th scope="row">Mês de referência</th>
+                <td>outubro de 2022</td>
+            </tr>
+            <tr>
+                <th scope="row">Código Fipe</th>
+                <td>038001-6</td>
+            </tr>
+            <tr>
+                <th scope="row">Marca</th>
+                <td>Acura</td>
+            </tr>
+            <tr>
+                <th scope="row">Ano modelo</th>
+                <td>1995 Gasolina</td>
+            </tr>
+            <tr>
+                <th scope="row">Autenticação</th>
+                <td>wcg81x9mqy</td>
+            </tr>
+            <tr>
+                <th scope="row">Data da consulta</th>
+                <td>terça-feira, 1 de novembro de 2022 16:09</td>
+            </tr>
+            <tr>
+                <th scope="row">Preço médio</th>
+                <td>R$ 45.046,00</td>
+            </tr>
+        </tbody>
+    </table>
 </form>
+
+<!-- <div class="text-center m-2">
+    <table class="table caption-top" aria-describedby="table" *ngFor="let item of response; let i = index">
+            <tbody>
+                <tr>
+                    <th scope="row">Mês de referência</th>
+                    <td>{{ response[i].mesdereferencia }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Código Fipe</th>
+                    <td>{{ response[i].codigoFipe }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Marca</th>
+                    <td>{{ response[i].marca }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Ano modelo</th>
+                    <td>{{ response[i].anoModelo }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Autenticação</th>
+                    <td>{{ response[i].autenticacao }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Data da consulta</th>
+                    <td>{{ response[i].dataDaConsulta }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Preço médio</th>
+                    <td>{{ response[i].precoMedio }}</td>
+                </tr>
+            </tbody>
+    </table> 
+<div>-->

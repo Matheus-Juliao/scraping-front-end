@@ -29,7 +29,7 @@ export class CarsComponent implements OnInit {
   public hideBrand: boolean = true
 
   public showLoanding: boolean = false
-  public showTable: boolean = false
+  public showForm: boolean = false
   
   public hideModels: boolean = true
   public hideYears: boolean = true
@@ -39,7 +39,17 @@ export class CarsComponent implements OnInit {
   public fPeriodIndex: number = 0
 
   
-
+  public titleTable: Array<string> = [
+    "Mês de referência",
+    "Código Fipe",
+    "Marca",
+    "Modelo",
+    "Ano modelo",
+    "Autenticação",
+    "Data da consulta",
+    "Preço médio" 
+  ]
+  
   public results: Array<any> = []
   public response: any
 
@@ -57,8 +67,6 @@ export class CarsComponent implements OnInit {
 
   public onSubmit(form: NgForm) {
     this.payload = form.value
-
-    console.log(form.value)
     this.showLoanding = true
 
     let cont = this.calcPeriod(this.payload)
@@ -94,10 +102,7 @@ export class CarsComponent implements OnInit {
       },
       complete: () => {
         this.response = this.results
-
-        console.log(this.response)
-
-        this.showTable = true
+        this.showForm = true
         this.showLoanding = false
         this.hideModels = false
         this.hideYears = false
@@ -117,7 +122,6 @@ export class CarsComponent implements OnInit {
     }
     else {
       let period: any = { period: form.value.finalReference }
-      console.log(period)
       this.showLoanding = true
       this.pagesService.postPeriod(period).subscribe({
         next: (res: any) => {

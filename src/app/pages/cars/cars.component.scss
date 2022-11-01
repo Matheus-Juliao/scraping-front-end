@@ -1,4 +1,8 @@
 :host {
+    .background-table {
+        margin-bottom: 60px;
+    }
+
     .form {
         width: 100%;
         max-width: 500px;
@@ -29,6 +33,10 @@
 
     .search {
         width: 100px;
+    }
+
+    #title {
+        display: flex !important;
     }
 
     label {
