@@ -1,4 +1,20 @@
 :host {
+    .form {
+        width: 100%;
+        max-width: 500px;
+        margin: auto auto;
+    }
+
+    .period {
+        width: 100%;
+        max-width: 230px;
+    }
+
+    .select {
+        width: 100%;
+        max-width: 500px;
+    }
+
     .form-control-sm{
         margin-left: 10px !important;
     }
@@ -11,8 +27,27 @@
         border-radius: 12px;
     }
 
+    .search {
+        width: 100px;
+    }
+
     label {
         display: block;
+        color: #003A61;
+        font-weight: 400;
+        font-size: 24px;
+
+    }
+
+    @media screen and (max-width: 467px) {
+        .period {
+            margin: unset !important;
+            margin-bottom: 6px !important;   
+        }
+
+        select, label {
+            font-size: 16px !important;
+        }
     }
 }
 

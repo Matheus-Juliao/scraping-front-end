@@ -3,9 +3,8 @@ import { NgForm } from '@angular/forms';
 import { PagesService } from '../pages.service';
 
 //Json
-import dbBrand from 'src/assets/brand.json';
 import dbReference from 'src/assets/reference.json';
-
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-cars',
@@ -34,6 +33,11 @@ export class CarsComponent implements OnInit {
   
   public hideModels: boolean = true
   public hideYears: boolean = true
+
+
+  public iPeriodIndex: number = 0
+  public fPeriodIndex: number = 0
+
   
 
   public results: Array<any> = []
@@ -45,7 +49,7 @@ export class CarsComponent implements OnInit {
   public models: any
   public years: any
 
-  constructor(private pagesService: PagesService) { }
+  constructor(private pagesService: PagesService, private messageService: MessageService) { }
 
   ngOnInit(): void {
     //
@@ -54,22 +58,11 @@ export class CarsComponent implements OnInit {
   public onSubmit(form: NgForm) {
     this.payload = form.value
 
-    console.log(this.payload)
+    console.log(form.value)
     this.showLoanding = true
 
-    let iPeriodIndex: number = 0
-    let fPeriodIndex: number = 0
+    let cont = this.calcPeriod(this.payload)
 
-    for(let i=0; i<this.reference.length; i++) {
-      if(this.reference[i].Codigo == form.value.initialReference) {
-        iPeriodIndex = i
-      }
-      if(this.reference[i].Codigo == form.value.finalReference) {
-        fPeriodIndex = i
-      }
-    }
-
-    let cont: number = fPeriodIndex - iPeriodIndex
     let reference = []
 
     for(let i=0; i<=cont; i++) {
@@ -79,6 +72,19 @@ export class CarsComponent implements OnInit {
     this.payload.period = reference
     this.request()
 
+  }
+
+  public calcPeriod(payload: any): number {
+    for(let i=0; i<this.reference.length; i++) {
+      if(this.reference[i].Codigo == payload.initialReference) {
+        this.iPeriodIndex = i
+      }
+      if(this.reference[i].Codigo == payload.finalReference) {
+        this.fPeriodIndex = i
+      }
+    }
+
+    return this.iPeriodIndex - this.fPeriodIndex
   }
 
   public request () {
@@ -104,18 +110,25 @@ export class CarsComponent implements OnInit {
   }
 
   public periodReferenceFinal(form: NgForm) {
-    let period: any = { period: form.value.finalReference }
-    console.log(period)
-    this.showLoanding = true
-    this.pagesService.postPeriod(period).subscribe({
-      next: (res: any) => {
-        this.brands = res
-      },
-      complete: () => {
-        this.showLoanding = false
-        this.hideBrand = false
-      }
-    })
+    let cont = this.calcPeriod(form.value)
+
+    if(cont < 0) {
+      this.showError()
+    }
+    else {
+      let period: any = { period: form.value.finalReference }
+      console.log(period)
+      this.showLoanding = true
+      this.pagesService.postPeriod(period).subscribe({
+        next: (res: any) => {
+          this.brands = res
+        },
+        complete: () => {
+          this.showLoanding = false
+          this.hideBrand = false
+        }
+      })
+    }
   }
 
   public brandCar(form: NgForm) {
@@ -165,6 +178,10 @@ export class CarsComponent implements OnInit {
       return true
     }
     return false
+  }
+
+  public showError() {
+    this.messageService.add({ key: 'app', severity:'error', summary: 'Error', life: 5000, detail: 'O período Inicial deve ser menor ou igual ao período Final'});
   }
 
 }
