@@ -1,3 +1,18 @@
-.form-control-sm{
-    margin-left: 10px !important;
+:host {
+    .form-control-sm{
+        margin-left: 10px !important;
+    }
+    
+    .btn {
+        background-color: #003A61;
+        opacity: unset !important;
+        color: white;
+        padding: 15px;
+        border-radius: 12px;
+    }
+
+    label {
+        display: block;
+    }
 }
+

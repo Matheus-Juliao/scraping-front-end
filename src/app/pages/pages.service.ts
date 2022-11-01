@@ -17,6 +17,12 @@ export class PagesService {
     )
   }
 
+  public postPeriod(period: string): Observable<any> {
+    return this.http.post<any>(`${this.url}period`, period).pipe(
+      res => res
+    )
+  }
+
   public postBrand(brand: string): Observable<any> {
     return this.http.post<any>(`${this.url}brand`, brand).pipe(
       res => res

@@ -9,12 +9,14 @@ import { HomeComponent } from './home/home.component';
 import { FormsModule } from '@angular/forms';
 import { CarsComponent } from './cars/cars.component';
 import { LoadingComponent } from './loading/loading.component';
+import { HeaderComponent } from './shared/header/header.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
     CarsComponent,
-    LoadingComponent
+    LoadingComponent,
+    HeaderComponent
   ],
   imports: [
     CommonModule,

@@ -14,7 +14,7 @@ import dbReference from 'src/assets/reference.json';
 })
 export class CarsComponent implements OnInit {
 
-  public brands: { Label: string, Value: string }[] = dbBrand;
+  // public brands: { Label: string, Value: string }[] = dbBrand;
   public reference: { Codigo: number, Mes: string, Index: number }[] = dbReference;
 
   public payload: any =  { 
@@ -26,18 +26,24 @@ export class CarsComponent implements OnInit {
     period: [{}]
   }
 
+  public hidePeriod: boolean = true
+  public hideBrand: boolean = true
+
   public showLoanding: boolean = false
   public showTable: boolean = false
+  
   public hideModels: boolean = true
   public hideYears: boolean = true
+  
+
   public results: Array<any> = []
   public response: any
+
+  public period: any
+  public brands: any
   public modelsYears: any
-  public dbModels: any
   public models: any
   public years: any
-  public firstPeriod: any
-  public finalPeriod: any
 
   constructor(private pagesService: PagesService) { }
 
@@ -47,6 +53,8 @@ export class CarsComponent implements OnInit {
 
   public onSubmit(form: NgForm) {
     this.payload = form.value
+
+    console.log(this.payload)
     this.showLoanding = true
 
     let iPeriodIndex: number = 0
@@ -87,6 +95,25 @@ export class CarsComponent implements OnInit {
         this.showLoanding = false
         this.hideModels = false
         this.hideYears = false
+      }
+    })
+  }
+
+  public periodReferenceInicial(form: NgForm) {
+    this.hidePeriod = false
+  }
+
+  public periodReferenceFinal(form: NgForm) {
+    let period: any = { period: form.value.finalReference }
+    console.log(period)
+    this.showLoanding = true
+    this.pagesService.postPeriod(period).subscribe({
+      next: (res: any) => {
+        this.brands = res
+      },
+      complete: () => {
+        this.showLoanding = false
+        this.hideBrand = false
       }
     })
   }
@@ -134,7 +161,7 @@ export class CarsComponent implements OnInit {
   }
 
   public showButton(form: NgForm) {
-    if(form.value.brand == '' || form.value.model == '') {
+    if(form.value.finalReference == '' || form.value.initialReference == '' || form.value.brand == '' || form.value.model == '') {
       return true
     }
     return false

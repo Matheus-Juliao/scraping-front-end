@@ -1,13 +1,29 @@
 <app-loading *ngIf="showLoanding" ></app-loading>
 <form class="card" #form="ngForm" (ngSubmit)="onSubmit(form)">
     <div class="text-center m-2">
-        <select name="brand" class="form-control-sm text-center" (change)="brandCar(form)" aria-label="Digite ou selecione a marca do veiculo" ngModel>
+        <p>Observação: O período Inicial deve ser menor ou igual ao período Final</p>
+
+        <select name="initialReference" class="form-control-sm text-center" (change)="periodReferenceInicial(form)"  aria-label="Mês e ano de referência inicial" ngModel>
+            <option value="" disabled selected>Período Inicial</option>
+            <option *ngFor="let item of reference" [value]="item.Codigo">{{ item.Mes }}</option>
+        </select>
+
+        <select name="finalReference" class="form-control-sm text-center" (change)="periodReferenceFinal(form)" aria-label="Mês e ano de referência final" ngModel [disabled]="hidePeriod">
+            <option value="" disabled selected>Período Final</option>
+            <option *ngFor="let item of reference" [value]="item.Codigo">{{ item.Mes }}</option>
+        </select>
+    </div>
+
+    <div class="text-center m-2">
+        <label>Marca</label>
+        <select name="brand" class="form-control-sm text-center" (change)="brandCar(form)" aria-label="Digite ou selecione a marca do veiculo" ngModel [disabled]="hideBrand">
             <option value="" disabled selected>Digite ou selecione a marca do veiculo</option>
             <option *ngFor="let item of brands" [value]="item.Value">{{ item.Label }}</option>
         </select>
     </div>
 
     <div class="text-center m-2">
+        <label>Modelo</label>
         <select name="model" class="form-control-sm text-center" (change)="modelYearCar(form)" aria-label="Digite ou selecione o modelo do veículo" ngModel [disabled]="hideModels">
             <option value="" disabled selected>Digite ou selecione o modelo do veículo</option>
             <option *ngFor="let item of models" [value]="item.Value">{{ item.Label }}</option>
@@ -15,26 +31,15 @@
     </div>
 
     <div class="text-center m-2">
+        <label>Ano Modelo</label>
         <select name="year" class="form-control-sm text-center" (change)="modelYearCar(form)" aria-label="Digite ou selecione o ano modelo do veículo" ngModel [disabled]="hideYears">
             <option value="" disabled selected>Digite ou selecione o ano modelo do veículo</option>
             <option *ngFor="let item of years" [value]="item.Value">{{ item.Label }}</option>
         </select>
     </div>
 
-    <div class="text-center m-2">
-        <select name="initialReference" class="form-control-sm text-center" (change)="modelYearCar(form)" aria-label="Mês e ano de referência inicial" ngModel [disabled]="hideYears">
-            <option value="" disabled selected>Mês e ano de referência inicial</option>
-            <option *ngFor="let item of reference" [value]="item.Codigo">{{ item.Mes }}</option>
-        </select>
-
-        <select name="finalReference" class="form-control-sm text-center" (change)="modelYearCar(form)" aria-label="Mês e ano de referência final" ngModel [disabled]="hideYears">
-            <option value="" disabled selected>Mês e ano de referência final</option>
-            <option *ngFor="let item of reference" [value]="item.Codigo">{{ item.Mes }}</option>
-        </select>
-    </div>
-
-    <div class="d-grid gap-2 col-2 mx-auto" >
-        <button class="btn btn-primary m-2" type="submit" [disabled]="showButton(form)">Enviar</button>
+    <div class="d-grid gap-2 col-1 mx-auto" >
+        <button class="btn" type="submit" [disabled]="showButton(form)">CONSULTAR</button>
     </div>
 
     <div class="card" *ngIf="showTable">
