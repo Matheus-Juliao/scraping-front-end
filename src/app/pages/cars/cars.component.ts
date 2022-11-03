@@ -5,6 +5,7 @@ import { PagesService } from '../pages.service';
 //Json
 import dbReference from 'src/assets/reference.json';
 import { MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cars',
@@ -27,7 +28,7 @@ export class CarsComponent implements OnInit {
   public hidePeriod: boolean = true
   public hideBrand: boolean = true
 
-  public showLoanding: boolean = false
+  public showLoanding: boolean = true
   public showForm: boolean = false
   
   public hideModels: boolean = true
@@ -41,13 +42,15 @@ export class CarsComponent implements OnInit {
   public results: Array<any> = []
   public response: any
 
+  public msg: string = ""
+
   public period: any
   public brands: any
   public modelsYears: any
   public models: any
   public years: any
 
-  constructor(private pagesService: PagesService, private messageService: MessageService) { }
+  constructor(private pagesService: PagesService, private messageService: MessageService, private router: Router) { }
 
   ngOnInit(): void {
     //
@@ -104,13 +107,19 @@ export class CarsComponent implements OnInit {
     this.cont = this.calcPeriod(form.value)
 
     if(this.cont < 0) {
-      this.showError()
+      this.msg = 'O período Inicial deve ser menor ou igual ao período Final'
+      this.showError(this.msg)
     } else {
         let period: any = { period: form.value.finalReference }
         this.showLoanding = true
         this.pagesService.postPeriod(period).subscribe({
           next: (res: any) => {
             this.brands = res
+          },
+          error: (err: any) => {
+            this.msg = 'Erro! Tente novamente!'
+            this.showError(this.msg)
+            this.showLoanding = false
           },
           complete: () => {
             this.showLoanding = false
@@ -177,8 +186,8 @@ export class CarsComponent implements OnInit {
     return false
   }
 
-  public showError() {
-    this.messageService.add({ key: 'app', severity:'error', summary: 'Error', life: 5000, detail: 'O período Inicial deve ser menor ou igual ao período Final'});
+  public showError(msg: string) {
+    this.messageService.add({ key: 'app', severity:'error', summary: 'Error', life: 5000, detail: msg });
   }
 
   public back() {

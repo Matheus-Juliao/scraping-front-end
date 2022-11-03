@@ -64,8 +64,15 @@
         text-align: -webkit-center;
     }
 
+    .divTable {
+        margin: auto auto !important;
+        max-width: 500px;
+    }
+
     .table {
         margin-bottom: 30px !important;
+        width: 500px;
+        margin: auto auto;
     }
 
     .back {
