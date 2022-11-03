@@ -28,7 +28,7 @@ export class CarsComponent implements OnInit {
   public hidePeriod: boolean = true
   public hideBrand: boolean = true
 
-  public showLoanding: boolean = true
+  public showLoanding: boolean = false
   public showForm: boolean = false
   
   public hideModels: boolean = true
