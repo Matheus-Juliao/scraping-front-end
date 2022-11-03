@@ -1,8 +1,22 @@
 <app-toast></app-toast>
 <app-loading *ngIf="showLoanding" ></app-loading>
-<img class="background-table" src="assets/images/background-table.png" alt="background-table">
+
+<div *ngIf="showForm" class="config">  
+    <img class="background-table img-responsive" src="assets/images/background-table.png" alt="background-table">
+
+    <div class="filterPrint">
+        <select name="filter" class="form-control-lg text-center selectFilter" aria-label="Filtrar pelo mês" ngModel [disabled]="false">
+            <option value="" disabled selected>Filtrar pelo mês</option>
+            <!-- <option *ngFor="let item of brands" [value]="item.Value">{{ item.Label }}</option> -->
+        </select>
+    
+        <img class="img-responsive csv" src="assets/images/csv.png" alt="ícone csv">
+        <img class="img-responsive pdf" src="assets/images/pdf.png" alt="ícone pdf">
+    </div>
+</div>
+
 <form class="form" #form="ngForm" (ngSubmit)="onSubmit(form)">
-    <div *ngIf="showForm">
+    <div *ngIf="!showForm">
         <div class="text-center">
             <img class="search m-1" src="assets/images/search.png" alt="imagem lupa">
             <p>*O período Inicial deve ser menor ou igual ao período Final</p>
@@ -46,90 +60,9 @@
             <button class="btn" type="submit" [disabled]="showButton(form)">CONSULTAR</button>
         </div>
     </div>
-
-    <!-- <div class="flex export">
-        <ds-export [img]="'assets/layout/icons/document-csv.png'" [pTooltip]="'CSV'"
-            (click)="dtVehicle.exportCSV()"></ds-export>
-
-        <ds-export [img]="'assets/layout/icons/document-excel.png'" [pTooltip]="'XLS'" (click)="exportExcel()">
-        </ds-export>
-
-        <ds-export [img]="'assets/layout/icons/document-pdf.png'" [pTooltip]="'PDF'" (click)="exportPdf()">
-        </ds-export>
-    </div> -->
-
-    <div class="d-grid gap-2 col-6 mx-auto" >
-        <button class="btn" type="button">CONSULTAR</button>
-    </div>
-
-    <table *ngIf="!showForm" class="table caption-top" aria-describedby="table">
-        <tbody>
-            <tr>
-                <th scope="row">Mês de referência</th>
-                <td>outubro de 2022</td>
-            </tr>
-            <tr>
-                <th scope="row">Código Fipe</th>
-                <td>038001-6</td>
-            </tr>
-            <tr>
-                <th scope="row">Marca</th>
-                <td>Acura</td>
-            </tr>
-            <tr>
-                <th scope="row">Ano modelo</th>
-                <td>1995 Gasolina</td>
-            </tr>
-            <tr>
-                <th scope="row">Autenticação</th>
-                <td>wcg81x9mqy</td>
-            </tr>
-            <tr>
-                <th scope="row">Data da consulta</th>
-                <td>terça-feira, 1 de novembro de 2022 16:09</td>
-            </tr>
-            <tr>
-                <th scope="row">Preço médio</th>
-                <td>R$ 45.046,00</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <table *ngIf="!showForm" class="table caption-top" aria-describedby="table">
-        <tbody>
-            <tr>
-                <th scope="row">Mês de referência</th>
-                <td>outubro de 2022</td>
-            </tr>
-            <tr>
-                <th scope="row">Código Fipe</th>
-                <td>038001-6</td>
-            </tr>
-            <tr>
-                <th scope="row">Marca</th>
-                <td>Acura</td>
-            </tr>
-            <tr>
-                <th scope="row">Ano modelo</th>
-                <td>1995 Gasolina</td>
-            </tr>
-            <tr>
-                <th scope="row">Autenticação</th>
-                <td>wcg81x9mqy</td>
-            </tr>
-            <tr>
-                <th scope="row">Data da consulta</th>
-                <td>terça-feira, 1 de novembro de 2022 16:09</td>
-            </tr>
-            <tr>
-                <th scope="row">Preço médio</th>
-                <td>R$ 45.046,00</td>
-            </tr>
-        </tbody>
-    </table>
 </form>
 
-<!-- <div class="text-center m-2">
+<div *ngIf="showForm" class="text-center m-2">
     <table class="table caption-top" aria-describedby="table" *ngFor="let item of response; let i = index">
             <tbody>
                 <tr>
@@ -162,4 +95,84 @@
                 </tr>
             </tbody>
     </table> 
-<div>-->
+<div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- <table *ngIf="!showForm" class="table caption-top" aria-describedby="table">
+        <tbody>
+            <tr>
+                <th scope="row">Mês de referência</th>
+                <td>outubro de 2022</td>
+            </tr>
+            <tr>
+                <th scope="row">Código Fipe</th>
+                <td>038001-6</td>
+            </tr>
+            <tr>
+                <th scope="row">Marca</th>
+                <td>Acura</td>
+            </tr>
+            <tr>
+                <th scope="row">Ano modelo</th>
+                <td>1995 Gasolina</td>
+            </tr>
+            <tr>
+                <th scope="row">Autenticação</th>
+                <td>wcg81x9mqy</td>
+            </tr>
+            <tr>
+                <th scope="row">Data da consulta</th>
+                <td>terça-feira, 1 de novembro de 2022 16:09</td>
+            </tr>
+            <tr>
+                <th scope="row">Preço médio</th>
+                <td>R$ 45.046,00</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table *ngIf="!showForm" class="table caption-top" aria-describedby="table">
+        <tbody>
+            <tr>
+                <th scope="row">Mês de referência</th>
+                <td>outubro de 2022</td>
+            </tr>
+            <tr>
+                <th scope="row">Código Fipe</th>
+                <td>038001-6</td>
+            </tr>
+            <tr>
+                <th scope="row">Marca</th>
+                <td>Acura</td>
+            </tr>
+            <tr>
+                <th scope="row">Ano modelo</th>
+                <td>1995 Gasolina</td>
+            </tr>
+            <tr>
+                <th scope="row">Autenticação</th>
+                <td>wcg81x9mqy</td>
+            </tr>
+            <tr>
+                <th scope="row">Data da consulta</th>
+                <td>terça-feira, 1 de novembro de 2022 16:09</td>
+            </tr>
+            <tr>
+                <th scope="row">Preço médio</th>
+                <td>R$ 45.046,00</td>
+            </tr>
+        </tbody>
+    </table> -->

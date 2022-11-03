@@ -1,6 +1,8 @@
 :host {
     .background-table {
-        margin-bottom: 60px;
+        //margin-bottom: 60px;
+        width: 100%;
+        // position: absolute;
     }
 
     .form {
@@ -31,12 +33,35 @@
         border-radius: 12px;
     }
 
+    .selectFilter {
+        background-color: #003A61;
+        color: white;
+        border-right: solid 10px;
+        border-color: #003A61;
+        margin-right: 10px;
+    }
+
+    .csv, .pdf {
+        margin-right: 10px;
+    }
+
     .search {
         width: 100px;
     }
 
     #title {
         display: flex !important;
+    }
+
+    .filterPrint {
+        margin-top: -33px;
+        text-align: left;
+        max-width: 500px;
+        padding-left: 12px;
+    }
+
+    .config {
+        text-align: -webkit-center;
     }
 
     label {
@@ -55,6 +80,10 @@
 
         select, label {
             font-size: 16px !important;
+        }
+
+        .csv, .pdf {
+            width: 50px;
         }
     }
 }
