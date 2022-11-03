@@ -84,10 +84,10 @@ export class CarsComponent implements OnInit {
 
   public calcPeriod(payload: any): number {
     for(let i=0; i<this.reference.length; i++) {
-      if(this.reference[i].Codigo == payload.initialReference) {
+      if(this.reference[i].Codigo === payload.initialReference) {
         this.iPeriodIndex = i
       }
-      if(this.reference[i].Codigo == payload.finalReference) {
+      if(this.reference[i].Codigo === payload.finalReference) {
         this.fPeriodIndex = i
       }
     }
@@ -119,18 +119,17 @@ export class CarsComponent implements OnInit {
 
     if(cont < 0) {
       this.showError()
-    }
-    else {
-      let period: any = { period: form.value.finalReference }
-      this.showLoanding = true
-      this.pagesService.postPeriod(period).subscribe({
-        next: (res: any) => {
-          this.brands = res
-        },
-        complete: () => {
-          this.showLoanding = false
-          this.hideBrand = false
-        }
+    } else {
+        let period: any = { period: form.value.finalReference }
+        this.showLoanding = true
+        this.pagesService.postPeriod(period).subscribe({
+          next: (res: any) => {
+            this.brands = res
+          },
+          complete: () => {
+            this.showLoanding = false
+            this.hideBrand = false
+          }
       })
     }
   }
@@ -154,10 +153,10 @@ export class CarsComponent implements OnInit {
 
   public modelYearCar(form: NgForm) {
     let payload: any 
-    if(form.value.model != "") {
+    if(form.value.model !== "") {
       payload = { brand: form.value.brand, model: form.value.model, cod: 1 }
     } 
-    if(form.value.year != "") {
+    if(form.value.year !== "") {
       payload = { brand: form.value.brand, year: form.value.year, cod: 2 }
     }
 
@@ -178,7 +177,7 @@ export class CarsComponent implements OnInit {
   }
 
   public showButton(form: NgForm) {
-    if(form.value.finalReference == '' || form.value.initialReference == '' || form.value.brand == '' || form.value.model == '') {
+    if(form.value.finalReference === '' || form.value.initialReference === '' || form.value.brand === '' || form.value.model === '') {
       return true
     }
     return false
@@ -186,6 +185,10 @@ export class CarsComponent implements OnInit {
 
   public showError() {
     this.messageService.add({ key: 'app', severity:'error', summary: 'Error', life: 5000, detail: 'O período Inicial deve ser menor ou igual ao período Final'});
+  }
+
+  public back() {
+    this.showForm = false
   }
 
 }
