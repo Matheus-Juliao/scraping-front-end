@@ -13,7 +13,6 @@ import { MessageService } from 'primeng/api';
 })
 export class CarsComponent implements OnInit {
 
-  // public brands: { Label: string, Value: string }[] = dbBrand;
   public reference: { Codigo: number, Mes: string, Index: number }[] = dbReference;
 
   public payload: any =  { 
@@ -34,21 +33,10 @@ export class CarsComponent implements OnInit {
   public hideModels: boolean = true
   public hideYears: boolean = true
 
-
   public iPeriodIndex: number = 0
   public fPeriodIndex: number = 0
 
-  
-  public titleTable: Array<string> = [
-    "Mês de referência",
-    "Código Fipe",
-    "Marca",
-    "Modelo",
-    "Ano modelo",
-    "Autenticação",
-    "Data da consulta",
-    "Preço médio" 
-  ]
+  public cont: number = 0
   
   public results: Array<any> = []
   public response: any
@@ -69,11 +57,9 @@ export class CarsComponent implements OnInit {
     this.payload = form.value
     this.showLoanding = true
 
-    let cont = this.calcPeriod(this.payload)
-
     let reference = []
 
-    for(let i=0; i<=cont; i++) {
+    for(let i=0; i<=this.cont; i++) {
       reference[i] = this.reference[i].Codigo.toString()
     }
 
@@ -84,10 +70,10 @@ export class CarsComponent implements OnInit {
 
   public calcPeriod(payload: any): number {
     for(let i=0; i<this.reference.length; i++) {
-      if(this.reference[i].Codigo === payload.initialReference) {
+      if(this.reference[i].Codigo === parseInt(payload.initialReference) ) {
         this.iPeriodIndex = i
       }
-      if(this.reference[i].Codigo === payload.finalReference) {
+      if(this.reference[i].Codigo === parseInt(payload.finalReference)) {
         this.fPeriodIndex = i
       }
     }
@@ -115,9 +101,9 @@ export class CarsComponent implements OnInit {
   }
 
   public periodReferenceFinal(form: NgForm) {
-    let cont = this.calcPeriod(form.value)
+    this.cont = this.calcPeriod(form.value)
 
-    if(cont < 0) {
+    if(this.cont < 0) {
       this.showError()
     } else {
         let period: any = { period: form.value.finalReference }
@@ -169,8 +155,12 @@ export class CarsComponent implements OnInit {
           this.modelsYears = res
         },
         complete: () => {
-          this.models = this.modelsYears.models
-          this.years = this.modelsYears.years
+
+          if(payload.cod === 1)
+            this.years = this.modelsYears.years
+          if(payload.cod === 2)
+            this.models = this.modelsYears.models
+          
           this.showLoanding = false
           this.hideModels = false
           this.hideYears = false

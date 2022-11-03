@@ -27,7 +27,7 @@
             </select>
 
             <select name="finalReference" class="form-select form-control-lg text-center ms-1 period d-inline-block" (change)="periodReferenceFinal(form)" aria-label="Mês e ano de referência final" ngModel [disabled]="hidePeriod">
-                <option value="" selected>Período Final</option>
+                <option value="" disabled selected>Período Final</option>
                 <option *ngFor="let item of reference" [value]="item.Codigo">{{ item.Mes }}</option>
             </select>
         </div>
@@ -35,7 +35,7 @@
         <div class="m-3">
             <label>Marca</label>
             <select name="brand" class="form-select form-control-lg text-center select" (change)="brandCar(form)" aria-label="Digite ou selecione a marca do veiculo" ngModel [disabled]="hideBrand">
-                <option value="" selected>Digite ou selecione a marca do veiculo</option>
+                <option value="" disabled selected>Digite ou selecione a marca do veiculo</option>
                 <option *ngFor="let item of brands" [value]="item.Value">{{ item.Label }}</option>
             </select>
         </div>
