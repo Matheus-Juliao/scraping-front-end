@@ -152,13 +152,13 @@ export class CarsComponent implements OnInit {
   }
 
   public modelYearCar(form: NgForm) {
-    if(form.value.model.length == 0 && form.value.year.length > 0 
-      || form.value.model.length > 0 && form.value.year.length == 0 ) {
+    if(form.value.model.length === 0 && form.value.year.length > 0 
+      || form.value.model.length > 0 && form.value.year.length === 0 ) {
       let payload: any 
-      if(form.value.model != "") {
+      if(form.value.model !== "") {
         payload = { brand: form.value.brand, model: form.value.model, cod: 1 }
       } 
-      if(form.value.year != "") {
+      if(form.value.year !== "") {
         payload = { brand: form.value.brand, year: form.value.year, cod: 2 }
       }
   
