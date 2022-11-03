@@ -153,28 +153,32 @@ export class CarsComponent implements OnInit {
   }
 
   public modelYearCar(form: NgForm) {
-    let payload: any 
-    if(form.value.model != "") {
-      payload = { brand: form.value.brand, model: form.value.model, cod: 1 }
-    } 
-    if(form.value.year != "") {
-      payload = { brand: form.value.brand, year: form.value.year, cod: 2 }
+    if(form.value.model.length == 0 && form.value.year.length > 0 
+      || form.value.model.length > 0 && form.value.year.length == 0 ) {
+      let payload: any 
+      if(form.value.model != "") {
+        payload = { brand: form.value.brand, model: form.value.model, cod: 1 }
+      } 
+      if(form.value.year != "") {
+        payload = { brand: form.value.brand, year: form.value.year, cod: 2 }
+      }
+  
+      this.showLoanding = true
+  
+      this.pagesService.postModelYear(payload).subscribe({
+        next: (res: any) => {
+          this.modelsYears = res
+        },
+        complete: () => {
+          this.models = this.modelsYears.models
+          this.years = this.modelsYears.years
+          this.showLoanding = false
+          this.hideModels = false
+          this.hideYears = false
+        }
+      })
     }
 
-    this.showLoanding = true
-
-    this.pagesService.postModelYear(payload).subscribe({
-      next: (res: any) => {
-        this.modelsYears = res
-      },
-      complete: () => {
-        this.models = this.modelsYears.models
-        this.years = this.modelsYears.years
-        this.showLoanding = false
-        this.hideModels = false
-        this.hideYears = false
-      }
-    })
   }
 
   public showButton(form: NgForm) {

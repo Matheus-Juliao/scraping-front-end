@@ -43,7 +43,7 @@
         <div class="m-3">
             <label>Modelo</label>
             <select name="model" class="form-control-lg text-center select" (change)="modelYearCar(form)" aria-label="Digite ou selecione o modelo do veículo" ngModel [disabled]="hideModels">
-                <option value="" disabled selected>Digite ou selecione o modelo do veículo</option>
+                <option value="" selected>Digite ou selecione o modelo do veículo</option>
                 <option *ngFor="let item of models" [value]="item.Value">{{ item.Label }}</option>
             </select>
         </div>
@@ -51,7 +51,7 @@
         <div class="m-3">
             <label>Ano Modelo</label>
             <select name="year" class="form-control-lg text-center select" (change)="modelYearCar(form)" aria-label="Digite ou selecione o ano modelo do veículo" ngModel [disabled]="hideYears">
-                <option value="" disabled selected>Digite ou selecione o ano modelo do veículo</option>
+                <option value="" selected>Digite ou selecione o ano modelo do veículo</option>
                 <option *ngFor="let item of years" [value]="item.Value">{{ item.Label }}</option>
             </select>
         </div>
