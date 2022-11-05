@@ -243,10 +243,7 @@ export class CarsComponent implements OnInit {
 
         cont++;
         page++;
-
-        console.log('cont'+ cont, 'totalPges' + totalPages, 'lenth' + printReports.length)
                                             
-        //4 !== 4  false
         if(cont !== printReports.length){
           doc.addPage();
         }
