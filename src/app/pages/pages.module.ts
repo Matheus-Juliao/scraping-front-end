@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RoutingModule } from './routing.modules';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { HttpClientModule } from '@angular/common/http'
+import { FormatDate } from './shared/utils/date.utils';
 
 //Components
 import { HomeComponent } from './home/home.component';
@@ -15,7 +16,6 @@ import { ToastModule } from 'primeng/toast';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MessageService } from 'primeng/api';
-import { TableModule } from 'primeng/table';
 
 @NgModule({
   declarations: [
@@ -33,11 +33,12 @@ import { TableModule } from 'primeng/table';
     HttpClientModule,
     ToastModule,
     BrowserModule,
-    BrowserAnimationsModule,
-    TableModule
+    BrowserAnimationsModule
+    
   ],
   providers: [
-    MessageService
+    MessageService,
+    FormatDate
   ]
 })
 

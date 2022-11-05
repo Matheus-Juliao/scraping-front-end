@@ -34,5 +34,11 @@ export class PagesService {
       res => res
     )
   }
+
+  public postPrint(payload: string): Observable<any> {
+    return this.http.post<any>(`${this.url}print`, payload).pipe(
+      res => res
+    )
+  }
   
 }

@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { PagesService } from '../pages.service';
+import { MessageService } from 'primeng/api';
+import { FormatDate } from 'src/app/pages/shared/utils/date.utils'
 
 //Json
 import dbReference from 'src/assets/reference.json';
-import { MessageService } from 'primeng/api';
-import { Router } from '@angular/router';
+import dbResp from 'src/assets/resp.json';
+import dbBase64 from 'src/assets/base64.json';
+
+//JSPDF
+import { jsPDF } from "jspdf";
 
 @Component({
   selector: 'app-cars',
@@ -15,15 +20,11 @@ import { Router } from '@angular/router';
 export class CarsComponent implements OnInit {
 
   public reference: { Codigo: number, Mes: string, Index: number }[] = dbReference;
+  public resp: { mesdereferencia: string, codigoFipe: string, marca: string, modelo: string, anoModelo: string, autenticacao: string, dataDaConsulta: string, precoMedio: string }[] = dbResp;
+  public base64: { logo: string }[] = dbBase64;
 
-  public payload: any =  { 
-    brand: "", 
-    model: "",  
-    years: "", 
-    initialReference: "", 
-    finalReference: "",
-    period: [{}]
-  }
+  public payload: any =  { brand: "", model: "", years: "", initialReference: "", finalReference: "", period: [{}]}
+  public desc: any = [ "MÊS DE REFERÊNCIA: ", "CÓDIGO FIPE: ", "MARCA: ", "MODELO: ", "ANO MODELO: ", "AUTENTICAÇÃO: ", "DATA DA CONSULTA: ", "PREÇO MÉDIO: " ]
 
   public hidePeriod: boolean = true
   public hideBrand: boolean = true
@@ -36,7 +37,6 @@ export class CarsComponent implements OnInit {
 
   public iPeriodIndex: number = 0
   public fPeriodIndex: number = 0
-
   public cont: number = 0
   
   public results: Array<any> = []
@@ -50,10 +50,13 @@ export class CarsComponent implements OnInit {
   public models: any
   public years: any
 
-  constructor(private pagesService: PagesService, private messageService: MessageService, private router: Router) { }
+  constructor(private pagesService: PagesService, 
+    private messageService: MessageService, 
+    private formatDate: FormatDate) { 
+  }
 
   ngOnInit(): void {
-    //
+    //this.printPdf()
   }
 
   public onSubmit(form: NgForm) {
@@ -67,6 +70,7 @@ export class CarsComponent implements OnInit {
     }
 
     this.payload.period = reference
+
     this.request()
 
   }
@@ -129,6 +133,17 @@ export class CarsComponent implements OnInit {
     }
   }
 
+  public print() {
+    this.pagesService.postPrint(this.payload).subscribe({
+      next: (res: any) => {
+        console.log(res)
+      },
+      complete: () => {
+
+      }
+    })
+  }
+
   public brandCar(form: NgForm) {
     let brand: any = { brand: form.value.brand }
     this.showLoanding = true
@@ -177,6 +192,48 @@ export class CarsComponent implements OnInit {
       })
     }
 
+  }
+
+  public async printPdf(){
+    const doc = new jsPDF(); 
+
+    doc.setFont('times', 'normal');
+    doc.setFontSize(12);
+
+    let logo = this.base64[0].logo
+    doc.addImage(logo , 'PNG', 20, 5, 40, 10);
+    doc.text(`Data da impressão:  ${this.formatDate.getNowDate()}`, 135, 12);
+    doc.setFontSize(16);
+    doc.text('Relatório de tabela fipe', 80, 25);
+    doc.setFontSize(12);
+
+    let x = 40;
+    let y = 40;
+
+    for(let desc of this.desc) {
+      doc.text(desc, x, y);
+      doc.line(x-1, y+2, 190, y+2);
+      y+=10;
+    }
+
+    x = 110;
+    // y = 10;
+    dbResp.forEach(row => {
+      doc.text(row.mesdereferencia, x, 40);
+      doc.text(row.codigoFipe, x, 50);
+      doc.text(row.marca, x, 60);
+      doc.text(row.modelo, x, 70);
+      doc.text(row.anoModelo, x, 80);
+      doc.text(row.autenticacao, x, 90);
+      doc.text(row.dataDaConsulta, x, 100);
+      doc.text(row.precoMedio, x, 110);
+    })
+
+    doc.setFontSize(10);
+    doc.text(`Página 1 de 1`, 15, 285);
+    doc.text('FipeQuery - All Rights Reserved', 145, 285);
+
+    doc.save("reports.pdf");
   }
 
   public showButton(form: NgForm) {
