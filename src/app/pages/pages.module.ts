@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RoutingModule } from './routing.modules';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { HttpClientModule } from '@angular/common/http'
-import { FormatDate } from './shared/utils/date.utils';
 
 //Components
 import { HomeComponent } from './home/home.component';
@@ -37,8 +36,7 @@ import { MessageService } from 'primeng/api';
     
   ],
   providers: [
-    MessageService,
-    FormatDate
+    MessageService
   ]
 })
 

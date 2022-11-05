@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { PagesService } from '../pages.service';
 import { MessageService } from 'primeng/api';
-import { FormatDate } from 'src/app/pages/shared/utils/date.utils'
+import { FormatDate } from 'src/utils/date.utils'
 
 //Json
 import dbReference from 'src/assets/reference.json';
@@ -20,7 +20,7 @@ import { jsPDF } from "jspdf";
 export class CarsComponent implements OnInit {
 
   public reference: { Codigo: number, Mes: string, Index: number }[] = dbReference;
-  public resp: { mesdereferencia: string, codigoFipe: string, marca: string, modelo: string, anoModelo: string, autenticacao: string, dataDaConsulta: string, precoMedio: string }[] = dbResp;
+  //public resp: { mesdereferencia: string, codigoFipe: string, marca: string, modelo: string, anoModelo: string, autenticacao: string, dataDaConsulta: string, precoMedio: string }[] = dbResp;
   public base64: { logo: string }[] = dbBase64;
 
   public payload: any =  { brand: "", model: "", years: "", initialReference: "", finalReference: "", period: [{}]}
@@ -49,6 +49,7 @@ export class CarsComponent implements OnInit {
   public modelsYears: any
   public models: any
   public years: any
+  public printReports: any
 
   constructor(private pagesService: PagesService, 
     private messageService: MessageService, 
@@ -56,7 +57,7 @@ export class CarsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.printPdf()
+    //
   }
 
   public onSubmit(form: NgForm) {
@@ -133,17 +134,6 @@ export class CarsComponent implements OnInit {
     }
   }
 
-  public print() {
-    this.pagesService.postPrint(this.payload).subscribe({
-      next: (res: any) => {
-        console.log(res)
-      },
-      complete: () => {
-
-      }
-    })
-  }
-
   public brandCar(form: NgForm) {
     let brand: any = { brand: form.value.brand }
     this.showLoanding = true
@@ -194,46 +184,104 @@ export class CarsComponent implements OnInit {
 
   }
 
-  public async printPdf(){
+  public print() {
+    this.pagesService.postPrint(this.payload).subscribe({
+      next: (res: any) => {
+        this.printReports = res
+      },
+      complete: () => {
+        this.printPdf(this.printReports)
+      }
+    })
+  }
+
+  public async printPdf(printReports: any) {
     const doc = new jsPDF(); 
+    const totalPages = (printReports.length % 2 == 0) ? printReports.length / 2 : printReports.length / 2 + 0.5;
 
-    doc.setFont('times', 'normal');
-    doc.setFontSize(12);
+    let cont = 0;
+    let page = 1;
+    let x = 0;
+    let y = 0;
 
-    let logo = this.base64[0].logo
-    doc.addImage(logo , 'PNG', 20, 5, 40, 10);
-    doc.text(`Data da impressão:  ${this.formatDate.getNowDate()}`, 135, 12);
-    doc.setFontSize(16);
-    doc.text('Relatório de tabela fipe', 80, 25);
-    doc.setFontSize(12);
+    printReports.forEach((print: any) => {
+      if (cont % 2 === 0) {
+        doc.setFont('times', 'normal');
+        doc.setFontSize(12);
 
-    let x = 40;
-    let y = 40;
+        let logo = this.base64[0].logo
 
+        doc.addImage(logo, 'PNG', 20, 5, 40, 10);
+        doc.text(`Data da impressão:  ${this.formatDate.getNowDate()}`, 135, 12);
+        doc.setFontSize(16);
+        doc.text('Relatório de tabela fipe', 80, 25);
+        doc.setFontSize(12);
+
+        doc.setFontSize(10);
+        doc.text(`Página ${page} de ${totalPages}`, 15, 285);
+        doc.text('FipeQuery - All Rights Reserved', 145, 285);
+
+        doc.setFontSize(12);
+
+        let x = 40;
+        let y = 40;
+        this.descriptionLine(doc, x, y);
+
+        x = 110;
+        y = 40;
+        this.printRow(doc, print, x, y);
+        cont++;
+
+      } else {
+        x = 40
+        y = 140;
+        this.descriptionLine(doc, x, y);
+
+        x = 110
+        y = 140;
+        this.printRow(doc, print, x, y);
+
+        cont++;
+        page++;
+
+        console.log('cont'+ cont, 'totalPges' + totalPages, 'lenth' + printReports.length)
+                                            
+        //4 !== 4  false
+        if(cont !== printReports.length){
+          doc.addPage();
+        }
+      }
+    });
+
+    doc.save("reports.pdf");
+  }
+
+  public descriptionLine(doc: any, x: number, y: number): void {
     for(let desc of this.desc) {
       doc.text(desc, x, y);
       doc.line(x-1, y+2, 190, y+2);
       y+=10;
     }
+  }
 
-    x = 110;
-    // y = 10;
-    dbResp.forEach(row => {
-      doc.text(row.mesdereferencia, x, 40);
-      doc.text(row.codigoFipe, x, 50);
-      doc.text(row.marca, x, 60);
-      doc.text(row.modelo, x, 70);
-      doc.text(row.anoModelo, x, 80);
-      doc.text(row.autenticacao, x, 90);
-      doc.text(row.dataDaConsulta, x, 100);
-      doc.text(row.precoMedio, x, 110);
-    })
-
-    doc.setFontSize(10);
-    doc.text(`Página 1 de 1`, 15, 285);
-    doc.text('FipeQuery - All Rights Reserved', 145, 285);
-
-    doc.save("reports.pdf");
+  public printRow(doc: any, print: any, x: number, y: number): void {
+    //print.forEach((row: any) => {
+    doc.text(print.mesdereferencia, x, y);
+    y += 10;
+    doc.text(print.codigoFipe, x, y);
+    y += 10;
+    doc.text(print.marca, x, y);
+    y += 10;
+    doc.text(print.modelo, x, y);
+    y += 10;
+    doc.text(print.anoModelo, x, y);
+    y += 10;
+    doc.text(print.autenticacao, x, y);
+    y += 10;
+    doc.text(print.dataDaConsulta, x, y);
+    y += 10;
+    doc.text(print.precoMedio, x, y);
+    //})
   }
 
   public showButton(form: NgForm) {

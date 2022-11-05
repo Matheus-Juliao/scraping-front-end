@@ -11,7 +11,7 @@
         </select>
     
         <img class="img-responsive csv" src="assets/images/csv.png" alt="ícone csv">
-        <img class="img-responsive pdf" src="assets/images/pdf.png" alt="ícone pdf">
+        <a (click)="print()"><img class="img-responsive pdf" src="assets/images/pdf.png" alt="ícone pdf"></a>
     </div>
 </div>
 
@@ -76,6 +76,10 @@
                 <tr>
                     <th scope="row">Marca</th>
                     <td>{{ response[i].marca }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Modelo</th>
+                    <td>{{ response[i].modelo }}</td>
                 </tr>
                 <tr>
                     <th scope="row">Ano modelo</th>

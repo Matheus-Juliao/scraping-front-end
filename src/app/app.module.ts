@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { FormatDate } from 'src/utils/date.utils';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,7 @@ import { AppComponent } from './app.component';
     AppRoutingModule,
     PagesModule
   ],
-  providers: [],
+  providers: [FormatDate],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
