@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http'
 
 //Components
 import { HomeComponent } from './home/home.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CarsComponent } from './cars/cars.component';
 import { LoadingComponent } from './loading/loading.component';
 import { HeaderComponent } from './shared/header/header.component';
@@ -32,8 +32,8 @@ import { MessageService } from 'primeng/api';
     HttpClientModule,
     ToastModule,
     BrowserModule,
-    BrowserAnimationsModule
-    
+    BrowserAnimationsModule,
+    ReactiveFormsModule
   ],
   providers: [
     MessageService

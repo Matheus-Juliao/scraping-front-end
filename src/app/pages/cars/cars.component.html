@@ -22,12 +22,12 @@
             <p>*O período Inicial deve ser menor ou igual ao período Final</p>
 
             <select name="initialReference" class="form-select form-control-lg text-center me-1 period d-inline-block" (change)="periodReferenceInicial(form)"  aria-label="Mês e ano de referência inicial" ngModel>
-                <option value="" disabled selected>Período Inicial</option>
+                <option value="" selected>Período Inicial</option>
                 <option *ngFor="let item of reference" [value]="item.Codigo">{{ item.Mes }}</option>
             </select>
 
-            <select name="finalReference" class="form-select form-control-lg text-center ms-1 period d-inline-block" (change)="periodReferenceFinal(form)" aria-label="Mês e ano de referência final" ngModel [disabled]="hidePeriod">
-                <option value="" disabled selected>Período Final</option>
+            <select name="finalReference" class="form-select form-control-lg text-center ms-1 period d-inline-block" (change)="periodReferenceFinal(form)" aria-label="Mês e ano de referência final" ngModel [disabled]="hidefinalReference">
+                <option value="" selected>Período Final</option>
                 <option *ngFor="let item of reference" [value]="item.Codigo">{{ item.Mes }}</option>
             </select>
         </div>
@@ -35,23 +35,23 @@
         <div class="m-3">
             <label>Marca</label>
             <select name="brand" class="form-select form-control-lg text-center select" (change)="brandCar(form)" aria-label="Digite ou selecione a marca do veiculo" ngModel [disabled]="hideBrand">
-                <option value="" disabled selected>Digite ou selecione a marca do veiculo</option>
+                <option value="" selected>Digite ou selecione a marca do veiculo</option>
                 <option *ngFor="let item of brands" [value]="item.Value">{{ item.Label }}</option>
             </select>
         </div>
 
         <div class="m-3">
             <label>Modelo</label>
-            <select name="model" class="form-select form-control-lg text-center select" (change)="modelYearCar(form)" aria-label="Digite ou selecione o modelo do veículo" ngModel [disabled]="hideModels">
-                <option value="" disabled selected>Digite ou selecione o modelo do veículo</option>
+            <select name="model" class="form-select form-control-lg text-center select" (change)="modelYearCar(form)" aria-label="Digite ou selecione o modelo do veículo" ngModel [disabled]="hideModelYear">
+                <option value="" selected>Digite ou selecione o modelo do veículo</option>
                 <option *ngFor="let item of models" [value]="item.Value">{{ item.Label }}</option>
             </select>
         </div>
 
         <div class="m-3">
             <label>Ano Modelo</label>
-            <select name="year" class="form-select form-control-lg text-center select" (change)="modelYearCar(form)" aria-label="Digite ou selecione o ano modelo do veículo" ngModel [disabled]="hideYears">
-                <option value="" disabled selected>Digite ou selecione o ano modelo do veículo</option>
+            <select name="year" class="form-select form-control-lg text-center select" (change)="modelYearCar(form)" aria-label="Digite ou selecione o ano modelo do veículo" ngModel [disabled]="hideModelYear">
+                <option value="" selected>Digite ou selecione o ano modelo do veículo</option>
                 <option *ngFor="let item of years" [value]="item.Value">{{ item.Label }}</option>
             </select>
         </div>

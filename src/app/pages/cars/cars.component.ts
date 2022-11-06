@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { PagesService } from '../pages.service';
 import { MessageService } from 'primeng/api';
@@ -6,7 +6,6 @@ import { FormatDate } from 'src/utils/date.utils'
 
 //Json
 import dbReference from 'src/assets/reference.json';
-import dbResp from 'src/assets/resp.json';
 import dbBase64 from 'src/assets/base64.json';
 
 //JSPDF
@@ -19,26 +18,26 @@ import { jsPDF } from "jspdf";
 })
 export class CarsComponent implements OnInit {
 
+  public form: any
+
   public reference: { Codigo: number, Mes: string, Index: number }[] = dbReference;
-  //public resp: { mesdereferencia: string, codigoFipe: string, marca: string, modelo: string, anoModelo: string, autenticacao: string, dataDaConsulta: string, precoMedio: string }[] = dbResp;
   public base64: { logo: string }[] = dbBase64;
 
   public payload: any =  { brand: "", model: "", years: "", initialReference: "", finalReference: "", period: [{}]}
   public desc: any = [ "MÊS DE REFERÊNCIA: ", "CÓDIGO FIPE: ", "MARCA: ", "MODELO: ", "ANO MODELO: ", "AUTENTICAÇÃO: ", "DATA DA CONSULTA: ", "PREÇO MÉDIO: " ]
 
-  public hidePeriod: boolean = true
   public hideBrand: boolean = true
 
   public showLoanding: boolean = false
   public showForm: boolean = false
   
-  public hideModels: boolean = true
-  public hideYears: boolean = true
+  public hidefinalReference: boolean = true
+  public hideModelYear: boolean = true
 
   public iPeriodIndex: number = 0
   public fPeriodIndex: number = 0
   public cont: number = 0
-  
+
   public results: Array<any> = []
   public response: any
 
@@ -60,61 +59,22 @@ export class CarsComponent implements OnInit {
     //
   }
 
-  public onSubmit(form: NgForm) {
-    this.payload = form.value
-    this.showLoanding = true
-
-    let reference = []
-
-    for(let i=0; i<=this.cont; i++) {
-      reference[i] = this.reference[i].Codigo.toString()
-    }
-
-    this.payload.period = reference
-
-    this.request()
-
-  }
-
-  public calcPeriod(payload: any): number {
-    for(let i=0; i<this.reference.length; i++) {
-      if(this.reference[i].Codigo === parseInt(payload.initialReference) ) {
-        this.iPeriodIndex = i
-      }
-      if(this.reference[i].Codigo === parseInt(payload.finalReference)) {
-        this.fPeriodIndex = i
-      }
-    }
-
-    return this.iPeriodIndex - this.fPeriodIndex
-  }
-
-  public request () {
-    this.pagesService.postForm(this.payload).subscribe({
-      next: (res: any) => {
-        this.results = res
-      },
-      complete: () => {
-        this.response = this.results
-        this.showForm = true
-        this.showLoanding = false
-        this.hideModels = false
-        this.hideYears = false
-      }
-    })
-  }
-
   public periodReferenceInicial(form: NgForm) {
-    this.hidePeriod = false
+    this.hidefinalReference = false
+    this.cont = this.calcPeriod(form.value)
   }
 
   public periodReferenceFinal(form: NgForm) {
+    this.clearBrand(form)
+    this.hideBrand = false
     this.cont = this.calcPeriod(form.value)
-
     if(this.cont < 0) {
       this.msg = 'O período Inicial deve ser menor ou igual ao período Final'
+      this.clearfinalReference(form)
       this.showError(this.msg)
-    } else {
+    }
+    
+    if(this.cont >= 0 && form.value.finalReference !== '') {
         let period: any = { period: form.value.finalReference }
         this.showLoanding = true
         this.pagesService.postPeriod(period).subscribe({
@@ -135,20 +95,22 @@ export class CarsComponent implements OnInit {
   }
 
   public brandCar(form: NgForm) {
-    let brand: any = { brand: form.value.brand }
-    this.showLoanding = true
-    this.pagesService.postBrand(brand).subscribe({
-      next: (res: any) => {
-        this.modelsYears = res
-      },
-      complete: () => {
-        this.models = this.modelsYears.models
-        this.years = this.modelsYears.years
-        this.showLoanding = false
-        this.hideModels = false
-        this.hideYears = false
-      }
-    })
+    this.clearModelYear(form);
+    this.hideModelYear = false
+    if(form.value.brand !== '') {
+      let brand: any = { brand: form.value.brand }
+      this.showLoanding = true
+      this.pagesService.postBrand(brand).subscribe({
+        next: (res: any) => {
+          this.modelsYears = res
+        },
+        complete: () => {
+          this.models = this.modelsYears.models
+          this.years = this.modelsYears.years
+          this.showLoanding = false
+        }
+      })
+    }
   }
 
   public modelYearCar(form: NgForm) {
@@ -176,12 +138,51 @@ export class CarsComponent implements OnInit {
             this.models = this.modelsYears.models
           
           this.showLoanding = false
-          this.hideModels = false
-          this.hideYears = false
         }
       })
     }
 
+  }
+
+  public onSubmit(form: NgForm) {
+    this.payload = form.value
+    this.showLoanding = true
+
+    let reference = []
+
+    for(let i=0; i<=this.cont; i++) {
+      reference[i] = this.reference[this.fPeriodIndex+i].Codigo.toString()
+    }
+
+    this.payload.period = reference
+
+    this.request()
+  }
+
+  public calcPeriod(payload: any): number {
+    for(let i=0; i<this.reference.length; i++) {
+      if(this.reference[i].Codigo === parseInt(payload.initialReference) ) {
+        this.iPeriodIndex = i
+      }
+      if(this.reference[i].Codigo === parseInt(payload.finalReference)) {
+        this.fPeriodIndex = i
+      }
+    }
+
+    return this.iPeriodIndex - this.fPeriodIndex
+  }
+
+  public request () {
+    this.pagesService.postForm(this.payload).subscribe({
+      next: (res: any) => {
+        this.results = res
+      },
+      complete: () => {
+        this.response = this.results
+        this.showForm = true
+        this.showLoanding = false
+      }
+    })
   }
 
   public print() {
@@ -262,7 +263,6 @@ export class CarsComponent implements OnInit {
   }
 
   public printRow(doc: any, print: any, x: number, y: number): void {
-    //print.forEach((row: any) => {
     doc.text(print.mesdereferencia, x, y);
     y += 10;
     doc.text(print.codigoFipe, x, y);
@@ -278,11 +278,10 @@ export class CarsComponent implements OnInit {
     doc.text(print.dataDaConsulta, x, y);
     y += 10;
     doc.text(print.precoMedio, x, y);
-    //})
   }
 
   public showButton(form: NgForm) {
-    if(form.value.finalReference === '' || form.value.initialReference === '' || form.value.brand === '' || form.value.model === '') {
+    if(form.value.finalReference == '' || form.value.initialReference == '' || form.value.brand == '' || form.value.model == '' || form.value.year == '') {
       return true
     }
     return false
@@ -294,6 +293,36 @@ export class CarsComponent implements OnInit {
 
   public back() {
     this.showForm = false
+  }
+
+  private clearfinalReference(form: NgForm) {
+    form.setValue({
+      initialReference: form.value.initialReference,
+      finalReference: '',
+      brand: '',
+      model: '',
+      year: ''
+    })
+  }
+
+  private clearBrand(form: NgForm) {
+    form.setValue({
+      initialReference: form.value.initialReference,
+      finalReference: form.value.finalReference,
+      brand: '',
+      model: '',
+      year: ''
+    })
+  }
+
+  private clearModelYear(form: NgForm) {
+    form.setValue({
+      initialReference: form.value.initialReference,
+      finalReference: form.value.finalReference,
+      brand: form.value.brand,
+      model: '',
+      year: ''
+    })
   }
 
 }
