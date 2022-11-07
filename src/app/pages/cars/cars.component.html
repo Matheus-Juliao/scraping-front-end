@@ -13,6 +13,10 @@
         <img class="img-responsive csv" src="assets/images/csv.png" alt="ícone csv">
         <a (click)="print()"><img class="img-responsive pdf" src="assets/images/pdf.png" alt="ícone pdf"></a>
     </div>
+
+    <div class="previousPeriod" *ngIf="showPreviousPeriod">
+        <span>Esse veículo só possui tabela fipe a partir do mês/ano de referência {{ previousPeriod }}.</span>
+    </div>
 </div>
 
 <form class="form" #form="ngForm" (ngSubmit)="onSubmit(form)">

@@ -33,6 +33,7 @@ export class CarsComponent implements OnInit {
   
   public hidefinalReference: boolean = true
   public hideModelYear: boolean = true
+  public showPreviousPeriod: boolean = false
 
   public iPeriodIndex: number = 0
   public fPeriodIndex: number = 0
@@ -42,6 +43,7 @@ export class CarsComponent implements OnInit {
   public response: any
 
   public msg: string = ""
+  public previousPeriod: string = 'janeiro de 2010'
 
   public period: any
   public brands: any
@@ -49,6 +51,7 @@ export class CarsComponent implements OnInit {
   public models: any
   public years: any
   public printReports: any
+  
 
   constructor(private pagesService: PagesService, 
     private messageService: MessageService, 
@@ -82,6 +85,7 @@ export class CarsComponent implements OnInit {
             this.brands = res
           },
           error: (err: any) => {
+            this.clearfinalReference(form)
             this.msg = 'Erro! Tente novamente!'
             this.showError(this.msg)
             this.showLoanding = false
@@ -103,6 +107,12 @@ export class CarsComponent implements OnInit {
       this.pagesService.postBrand(brand).subscribe({
         next: (res: any) => {
           this.modelsYears = res
+        },
+        error: (err: any) => {
+          this.clearBrand(form)
+          this.msg = 'Erro! Tente novamente!'
+          this.showError(this.msg)
+          this.showLoanding = false
         },
         complete: () => {
           this.models = this.modelsYears.models
@@ -131,14 +141,19 @@ export class CarsComponent implements OnInit {
           this.modelsYears = res
         },
         complete: () => {
-
           if(payload.cod === 1)
             this.years = this.modelsYears.years
           if(payload.cod === 2)
             this.models = this.modelsYears.models
           
           this.showLoanding = false
-        }
+        },
+        error: (err: any) => {
+          this.clearModelYear(form)
+          this.msg = 'Erro! Tente novamente!'
+          this.showError(this.msg)
+          this.showLoanding = false
+        },
       })
     }
 
@@ -175,9 +190,20 @@ export class CarsComponent implements OnInit {
   public request () {
     this.pagesService.postForm(this.payload).subscribe({
       next: (res: any) => {
-        this.results = res
+        this.results = res.result
+        this.previousPeriod = res.previousPeriod
       },
       complete: () => {
+        if(this.results.length != this.payload.period.length) {
+          this.showPreviousPeriod = true
+
+          for(let i of this.payload.period) {
+            this.payload.period.pop()
+          }
+
+          // this.msg = `Esse veículo só possui tabela fipe a partir do mês/ano de referência ${this.previousPeriod}`
+          // this.showError(this.msg)
+        }
         this.response = this.results
         this.showForm = true
         this.showLoanding = false
