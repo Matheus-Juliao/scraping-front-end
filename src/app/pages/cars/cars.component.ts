@@ -7,6 +7,7 @@ import { FormatDate } from 'src/utils/date.utils'
 //Json
 import dbReference from 'src/assets/reference.json';
 import dbBase64 from 'src/assets/base64.json';
+import dbResp from 'src/assets/resp.json';
 
 //JSPDF
 import { jsPDF } from "jspdf";
@@ -20,11 +21,12 @@ export class CarsComponent implements OnInit {
 
   public form: any
 
+  public resp: { mesdereferencia: string, codigoFipe: string, marca: string, modelo: string, anoModelo: string, autenticacao: string, dataDaConsulta: string, precoMedio: string }[] = dbResp;
   public reference: { Codigo: number, Mes: string, Index: number }[] = dbReference;
   public base64: { logo: string }[] = dbBase64;
 
   public payload: any =  { brand: "", model: "", years: "", initialReference: "", finalReference: "", period: [{}]}
-  public desc: any = [ "MÊS DE REFERÊNCIA: ", "CÓDIGO FIPE: ", "MARCA: ", "MODELO: ", "ANO MODELO: ", "AUTENTICAÇÃO: ", "DATA DA CONSULTA: ", "PREÇO MÉDIO: " ]
+  public desc = [ "MÊS DE REFERÊNCIA: ", "CÓDIGO FIPE: ", "MARCA: ", "MODELO: ", "ANO MODELO: ", "AUTENTICAÇÃO: ", "DATA DA CONSULTA: ", "PREÇO MÉDIO: " ]
 
   public showLoanding: boolean = false
   public showForm: boolean = false
@@ -58,7 +60,40 @@ export class CarsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.printCsv()
     //
+  }
+
+  public printCsv(form?: NgForm) {
+
+    let csvContent = "data:text/csv;charset=utf-8,";
+    let response: any = []
+
+    this.resp.map(row  => {
+      response.push(row.mesdereferencia),
+      response.push(row.codigoFipe),
+      response.push(row.marca),
+      response.push(row.modelo),
+      response.push(row.anoModelo),
+      response.push(row.autenticacao),
+      response.push(row.dataDaConsulta.replace(':', 'h')),
+      response.push(row.precoMedio)
+    })
+
+    for(let i=0; i<this.desc.length; i++) {
+      csvContent = csvContent + this.desc[i] + response[i]  + "\n"; 
+      if(i == this.desc.length-1) {
+        csvContent = csvContent + "\n"; 
+      }
+    }
+
+    let encodedUri = encodeURI(csvContent, );
+    let link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "reports.csv");
+    document.body.appendChild(link); 
+    link.click();
+
   }
 
   public periodReferenceInicial(form: NgForm) {
