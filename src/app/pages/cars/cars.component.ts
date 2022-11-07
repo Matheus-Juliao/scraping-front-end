@@ -200,9 +200,6 @@ export class CarsComponent implements OnInit {
           for(let i of this.payload.period) {
             this.payload.period.pop()
           }
-
-          // this.msg = `Esse veículo só possui tabela fipe a partir do mês/ano de referência ${this.previousPeriod}`
-          // this.showError(this.msg)
         }
         this.response = this.results
         this.showForm = true
