@@ -1,4 +1,4 @@
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { PagesService } from '../pages.service';
 import { MessageService } from 'primeng/api';
@@ -60,40 +60,8 @@ export class CarsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.printCsv()
+    this.printCsv(this.resp)
     //
-  }
-
-  public printCsv(form?: NgForm) {
-
-    let csvContent = "data:text/csv;charset=utf-8,";
-    let response: any = []
-
-    this.resp.map(row  => {
-      response.push(row.mesdereferencia),
-      response.push(row.codigoFipe),
-      response.push(row.marca),
-      response.push(row.modelo),
-      response.push(row.anoModelo),
-      response.push(row.autenticacao),
-      response.push(row.dataDaConsulta.replace(':', 'h')),
-      response.push(row.precoMedio)
-    })
-
-    for(let i=0; i<this.desc.length; i++) {
-      csvContent = csvContent + this.desc[i] + response[i]  + "\n"; 
-      if(i == this.desc.length-1) {
-        csvContent = csvContent + "\n"; 
-      }
-    }
-
-    let encodedUri = encodeURI(csvContent, );
-    let link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "reports.csv");
-    document.body.appendChild(link); 
-    link.click();
-
   }
 
   public periodReferenceInicial(form: NgForm) {
@@ -208,7 +176,7 @@ export class CarsComponent implements OnInit {
     this.request()
   }
 
-  public calcPeriod(payload: any): number {
+  private calcPeriod(payload: any): number {
     for(let i=0; i<this.reference.length; i++) {
       if(this.reference[i].Codigo === parseInt(payload.initialReference) ) {
         this.iPeriodIndex = i
@@ -221,7 +189,7 @@ export class CarsComponent implements OnInit {
     return this.iPeriodIndex - this.fPeriodIndex
   }
 
-  public request () {
+  private request () {
     this.pagesService.postForm(this.payload).subscribe({
       next: (res: any) => {
         this.results = res.result
@@ -247,18 +215,58 @@ export class CarsComponent implements OnInit {
     })
   }
 
-  public print() {
+  public print(arq: string) {
     this.pagesService.postPrint(this.payload).subscribe({
       next: (res: any) => {
         this.printReports = res
       },
       complete: () => {
-        this.printPdf(this.printReports)
+        if(arq == 'pdf')
+          this.printPdf(this.printReports)
+        else if(arq == 'csv')  
+          this.printCsv(this.printReports)
       }
     })
   }
 
-  public async printPdf(printReports: any) {
+  private printCsv(printReports: any) {
+
+    let csvContent = "data:text/csv;charset=utf-8,";
+    let response: any = []
+
+    for(let row of printReports) {
+      response.push(row.mesdereferencia + ";")
+      response.push(row.codigoFipe + ";")
+      response.push(row.marca + ";")
+      response.push(row.modelo + ";")
+      response.push(row.anoModelo + ";")
+      response.push(row.autenticacao + ";")
+      response.push(row.dataDaConsulta.replace(':', 'h') + ";")
+      response.push(row.precoMedio + ";")
+    }
+
+    console.log(response)
+
+    let j = 0;
+    for(let i=0; i<response.length; i++) {
+      csvContent = csvContent + this.desc[j] + response[i]  + "\n";  
+      if(j == 7) {
+        csvContent = csvContent + "\n"; 
+        j=-1
+      }
+
+      j++
+    }
+
+    let encodedUri = encodeURI(csvContent, );
+    let link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "reports.csv");
+    document.body.appendChild(link); 
+    link.click();
+  }
+
+  private printPdf(printReports: any) {
     const doc = new jsPDF(); 
     const totalPages = (printReports.length % 2 == 0) ? printReports.length / 2 : printReports.length / 2 + 0.5;
 
@@ -316,7 +324,7 @@ export class CarsComponent implements OnInit {
     doc.save("reports.pdf");
   }
 
-  public descriptionLine(doc: any, x: number, y: number): void {
+  private descriptionLine(doc: any, x: number, y: number): void {
     for(let desc of this.desc) {
       doc.text(desc, x, y);
       doc.line(x-1, y+2, 190, y+2);
@@ -324,7 +332,7 @@ export class CarsComponent implements OnInit {
     }
   }
 
-  public printRow(doc: any, print: any, x: number, y: number): void {
+  private printRow(doc: any, print: any, x: number, y: number): void {
     doc.text(print.mesdereferencia, x, y);
     y += 10;
     doc.text(print.codigoFipe, x, y);
@@ -349,15 +357,15 @@ export class CarsComponent implements OnInit {
     return false
   }
 
-  public showError(msg: string) {
+  private showError(msg: string) {
     this.messageService.add({ key: 'app', severity:'error', summary: 'Error', life: 5000, detail: msg });
   }
 
-  public back(form: NgForm) {
-    this.clearForm(form)
-    this.hidefinalReference = false
-    this.hideModelYear = false
-    this.hideBrand = false
+  public back() {
+    this.hidefinalReference = true
+    this.hideModelYear = true
+    this.hideBrand = true
+    this.showForm = false
   }
 
   private clearfinalReference(form: NgForm) {
