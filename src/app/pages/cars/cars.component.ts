@@ -235,21 +235,19 @@ export class CarsComponent implements OnInit {
     let response: any = []
 
     for(let row of printReports) {
-      response.push(row.mesdereferencia + ";")
-      response.push(row.codigoFipe + ";")
-      response.push(row.marca + ";")
-      response.push(row.modelo + ";")
-      response.push(row.anoModelo + ";")
-      response.push(row.autenticacao + ";")
-      response.push(row.dataDaConsulta.replace(':', 'h') + ";")
-      response.push(row.precoMedio + ";")
+      response.push(row.mesdereferencia)
+      response.push(row.codigoFipe )
+      response.push(row.marca)
+      response.push(row.modelo)
+      response.push(row.anoModelo)
+      response.push(row.autenticacao)
+      response.push(row.dataDaConsulta.replace(':', 'h'))
+      response.push(row.precoMedio)
     }
-
-    console.log(response)
 
     let j = 0;
     for(let i=0; i<response.length; i++) {
-      csvContent = csvContent + this.desc[j] + response[i]  + "\n";  
+      csvContent = csvContent + this.desc[j] + response[i] + "\n";  
       if(j == 7) {
         csvContent = csvContent + "\n"; 
         j=-1
