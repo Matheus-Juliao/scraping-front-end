@@ -60,7 +60,6 @@ export class CarsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.printCsv(this.resp)
     //
   }
 
