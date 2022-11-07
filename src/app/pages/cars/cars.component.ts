@@ -26,13 +26,12 @@ export class CarsComponent implements OnInit {
   public payload: any =  { brand: "", model: "", years: "", initialReference: "", finalReference: "", period: [{}]}
   public desc: any = [ "MÊS DE REFERÊNCIA: ", "CÓDIGO FIPE: ", "MARCA: ", "MODELO: ", "ANO MODELO: ", "AUTENTICAÇÃO: ", "DATA DA CONSULTA: ", "PREÇO MÉDIO: " ]
 
-  public hideBrand: boolean = true
-
   public showLoanding: boolean = false
   public showForm: boolean = false
   
   public hidefinalReference: boolean = true
   public hideModelYear: boolean = true
+  public hideBrand: boolean = true
   public showPreviousPeriod: boolean = false
 
   public iPeriodIndex: number = 0
@@ -193,6 +192,11 @@ export class CarsComponent implements OnInit {
         this.results = res.result
         this.previousPeriod = res.previousPeriod
       },
+      error: (err: any) => {
+        this.msg = 'Erro! Tente novamente!'
+        this.showError(this.msg)
+        this.showLoanding = false
+      },
       complete: () => {
         if(this.results.length != this.payload.period.length) {
           this.showPreviousPeriod = true
@@ -314,8 +318,11 @@ export class CarsComponent implements OnInit {
     this.messageService.add({ key: 'app', severity:'error', summary: 'Error', life: 5000, detail: msg });
   }
 
-  public back() {
-    this.showForm = false
+  public back(form: NgForm) {
+    this.clearForm(form)
+    this.hidefinalReference = false
+    this.hideModelYear = false
+    this.hideBrand = false
   }
 
   private clearfinalReference(form: NgForm) {
@@ -343,6 +350,16 @@ export class CarsComponent implements OnInit {
       initialReference: form.value.initialReference,
       finalReference: form.value.finalReference,
       brand: form.value.brand,
+      model: '',
+      year: ''
+    })
+  }
+
+  private clearForm(form: NgForm) {
+    form.setValue({
+      initialReference: '',
+      finalReference: '',
+      brand: '',
       model: '',
       year: ''
     })
