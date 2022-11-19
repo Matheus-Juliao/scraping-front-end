@@ -52,6 +52,8 @@ export class CarsComponent implements OnInit {
   public models: any
   public years: any
   public printReports: any
+  public payloadModel: any
+  public payloadYear: any
   
 
   constructor(private pagesService: PagesService, 
@@ -124,38 +126,12 @@ export class CarsComponent implements OnInit {
     }
   }
 
-  public modelYearCar(form: NgForm) {
-    if(form.value.model.length === 0 && form.value.year.length > 0 
-      || form.value.model.length > 0 && form.value.year.length === 0 ) {
-      let payload: any 
-      if(form.value.model !== "") {
-        payload = { brand: form.value.brand, model: form.value.model, cod: 1 }
-      } 
-      if(form.value.year !== "") {
-        payload = { brand: form.value.brand, year: form.value.year, cod: 2 }
-      }
-  
-      this.showLoanding = true
-  
-      this.pagesService.postModelYear(payload).subscribe({
-        next: (res: any) => {
-          this.modelsYears = res
-        },
-        complete: () => {
-          if(payload.cod === 1)
-            this.years = this.modelsYears.years
-          if(payload.cod === 2)
-            this.models = this.modelsYears.models
-          
-          this.showLoanding = false
-        },
-        error: (err: any) => {
-          this.clearModelYear(form)
-          this.msg = 'Erro! Tente novamente!'
-          this.showError(this.msg)
-          this.showLoanding = false
-        },
-      })
+  public modelYearCar(form: NgForm, status: string) {
+    if((form.value.model != "" && form.value.year == "" && status == "model") || (form.value.model != this.payloadModel?.model && this.payloadModel?.model != undefined && form.value.model != "")) {
+      this.requestModelYear(form, status)
+    }
+    if((form.value.year != "" && form.value.model == "" && status == "year") || (form.value.year != this.payloadYear?.year && this.payloadYear?.year != undefined && form.value.year != "")) {
+      this.requestModelYear(form, status)
     }
 
   }
@@ -186,6 +162,40 @@ export class CarsComponent implements OnInit {
     }
 
     return this.iPeriodIndex - this.fPeriodIndex
+  }
+
+  private requestModelYear(form: NgForm, status: string) {
+    let payload: any
+
+    if(status == "model") {
+      this.payloadModel = { brand: form.value.brand, model: form.value.model, cod: 1 }
+      payload = this.payloadModel
+    } 
+    if(status == "year") {
+      this.payloadYear = { brand: form.value.brand, year: form.value.year, cod: 2 }
+      payload = this.payloadYear
+    }
+    this.showLoanding = true
+    
+    this.pagesService.postModelYear(payload).subscribe({
+      next: (res: any) => {
+        this.modelsYears = res
+      },
+      complete: () => {
+        if(payload.cod === 1)
+          this.years = this.modelsYears.years
+        if(payload.cod === 2)
+          this.models = this.modelsYears.models
+        
+        this.showLoanding = false
+      },
+      error: (err: any) => {
+        this.clearModelYear(form)
+        this.msg = 'Erro! Tente novamente!'
+        this.showError(this.msg)
+        this.showLoanding = false
+      },
+    })
   }
 
   private request () {
@@ -394,15 +404,4 @@ export class CarsComponent implements OnInit {
       year: ''
     })
   }
-
-  private clearForm(form: NgForm) {
-    form.setValue({
-      initialReference: '',
-      finalReference: '',
-      brand: '',
-      model: '',
-      year: ''
-    })
-  }
-
 }
