@@ -105,7 +105,7 @@ export class CarsComponent implements OnInit {
     this.clearModelYear(form);
     this.hideModelYear = false
     if(form.value.brand !== '') {
-      let brand: any = { brand: form.value.brand }
+      let brand: any = { brand: form.value.brand, period: form.value.finalReference }
       this.showLoanding = true
       this.pagesService.postBrand(brand).subscribe({
         next: (res: any) => {
@@ -168,11 +168,11 @@ export class CarsComponent implements OnInit {
     let payload: any
 
     if(status == "model") {
-      this.payloadModel = { brand: form.value.brand, model: form.value.model, cod: 1 }
+      this.payloadModel = { brand: form.value.brand, model: form.value.model, period: form.value.finalReference,  cod: 1 }
       payload = this.payloadModel
     } 
     if(status == "year") {
-      this.payloadYear = { brand: form.value.brand, year: form.value.year, cod: 2 }
+      this.payloadYear = { brand: form.value.brand, year: form.value.year, period: form.value.finalReference, cod: 2 }
       payload = this.payloadYear
     }
     this.showLoanding = true
