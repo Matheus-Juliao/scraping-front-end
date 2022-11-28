@@ -46,5 +46,29 @@ export class PagesService {
       res => res
     )
   }
+
+  public postCheapest(): Observable<any> {
+    return this.http.post<any>(`${this.url}cheapest`, null).pipe(
+      res => res
+    )
+  }
+
+  public postLessPowerful(): Observable<any> {
+    return this.http.post<any>(`${this.url}lessPowerful`, null).pipe(
+      res => res
+    )
+  }
+
+  public postMoreEconomical(): Observable<any> {
+    return this.http.post<any>(`${this.url}moreEconomical`, null).pipe(
+      res => res
+    )
+  }
+
+  public postLessEconomical(): Observable<any> {
+    return this.http.post<any>(`${this.url}lessEconomical`, null).pipe(
+      res => res
+    )
+  }
   
 }

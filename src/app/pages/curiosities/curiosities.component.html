@@ -4,25 +4,21 @@
 <div>
     <app-header></app-header>
 
-    <div>
-        <a (click)="moreExpensive()">
-            <img class="img-card-curiosities" src="assets/images/mostExpensive.png" alt="Botão para visualisar carro mais caro no banco de dados">         
-        </a>
-        <a (click)="cheapest()">
-            <img class="img-card-curiosities" src="assets/images/cheapest.png" alt="Botão para visualisar carro mais barato no banco de dados">         
-        </a>
-        <a (click)="cheapest()">
-            <img class="img-card-curiosities" src="assets/images/mostExpensive.png" alt="Botão para visualisar carro mais caro no banco de dados">         
-        </a>
-        <a (click)="cheapest()">
-            <img class="img-card-curiosities" src="assets/images/cheapest.png" alt="Botão para visualisar carro mais barato no banco de dados">         
-        </a>
-        <a (click)="cheapest()">
-            <img class="img-card-curiosities" src="assets/images/cheapest.png" alt="Botão para visualisar carro mais barato no banco de dados">         
-        </a>
+    <div class="img-card">
+        <img *ngIf="showMoreExpensive" (click)="moreExpensive()" class="img-card-curiosities" src="assets/images/mostExpensive.png" alt="Botão para visualisar carro mais caro no banco de dados">
+        <img *ngIf="showCheapest" (click)="cheapest()" class="img-card-curiosities" src="assets/images/cheapest.png" alt="Botão para visualisar carro mais barato no banco de dados">         
+        <img *ngIf="showLessPowerful" (click)="lessPowerful()" class="img-card-curiosities" src="assets/images/lessPowerful.png" alt="Botão para visualisar carro menos potente">         
+        <img *ngIf="showMoreEconomical" (click)="moreEconomical()" class="img-card-curiosities"  src="assets/images/moreEconomical.png" alt="Botão para visualisar carro mais econômico">         
+        <img *ngIf="showLessEconomical" (click)="lessEconomical()" class="img-card-curiosities"  src="assets/images/lessEconomical.png" alt="Botão para visualisar carro mais gastão">         
     </div>
 
-    <div *ngIf="true" class="m-2 divTable">
+    <p *ngIf="pMoreExpensive">Esse veículo é o mais caro cadastrado no sistema através da raspagem de dados.</p>
+    <p *ngIf="pCheapest">Esse veículo é o mais barato cadastrado no sistema através da raspagem de dados.</p>
+    <p *ngIf="pLessPowerful">Esse é uns dos veículos menos potentes encontrado na tabela fipe com 32 cavalos de potência.</p>
+    <p *ngIf="pMoreEconomical">Esse é uns dos veículos mais econômicos encontrado na tabela fipe. Seu sistema hibrido garante uma média de 42,6 Km/l na cidade.</p>
+    <p *ngIf="pLessEconomical" >Esse é uns dos veículos mais gastões encontrado na tabela fipe com uma média de 2,3 Km/l na cidade.</p>
+
+    <div *ngIf="showTable" class="m-2 divTable">
         <table class="table caption-top" aria-describedby="table" *ngFor="let item of response; let i = index">
                 <tbody>
                     <tr>
@@ -60,7 +56,7 @@
                 </tbody>
         </table> 
     
-        <div *ngIf="false">
+        <div *ngIf="showTable">
             <div class="back d-grid gap-2 col-6 mx-auto mb-3">
                 <button class="btn" type="button" (click)="back()">VOLTAR</button>
             </div>

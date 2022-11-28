@@ -1,22 +1,52 @@
 
 :host {
+    .img-card {
+        display: flex;
+        margin: 10px;
+    }
+
     .img-card-curiosities {
         cursor: pointer;
-        width: 225px;
-        margin: 10px 0 10px 20px;
+        margin: 1%;
+        width: calc(100% / 5.55);
     }
     
     .btn {
         background-color: #003A61;
-        // opacity: unset !important;
         color: white;
         padding: 15px;
         border-radius: 12px;
+        margin: auto auto;
+        min-width: 200px;
     }
 
     .table {
         margin-bottom: 30px !important;
-        width: 500px;
+        max-width: 500px;
         margin: auto auto;
+    }
+
+    p {
+        text-align: center;
+        background-color: #003A61;
+        color: white;
+        font-size: 20px;
+        margin: 0 20px 0 20px;
+        border-radius: 10px;
+        padding: 2px;
+    }
+
+    @media screen and (max-width: 900px) {
+        .img-card {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    
+        .img-card-curiosities {
+            flex: 1 1 150px;
+            max-height: 225px;
+            max-width: 300px;
+            width: unset;
+        }
     }
 }
