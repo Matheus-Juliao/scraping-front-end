@@ -40,5 +40,11 @@ export class PagesService {
       res => res
     )
   }
+
+  public postMoreExpensive(): Observable<any> {
+    return this.http.post<any>(`${this.url}moreExpensive`, null).pipe(
+      res => res
+    )
+  }
   
 }

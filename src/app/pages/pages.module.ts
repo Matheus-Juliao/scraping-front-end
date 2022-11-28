@@ -15,6 +15,7 @@ import { ToastModule } from 'primeng/toast';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MessageService } from 'primeng/api';
+import { CuriositiesComponent } from './curiosities/curiosities.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { MessageService } from 'primeng/api';
     LoadingComponent,
     HeaderComponent,
     ToastComponent,
+    CuriositiesComponent,
   ],
   imports: [
     CommonModule,

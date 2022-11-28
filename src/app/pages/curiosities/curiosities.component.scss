@@ -1,0 +1,22 @@
+
+:host {
+    .img-card-curiosities {
+        cursor: pointer;
+        width: 225px;
+        margin: 10px 0 10px 20px;
+    }
+    
+    .btn {
+        background-color: #003A61;
+        // opacity: unset !important;
+        color: white;
+        padding: 15px;
+        border-radius: 12px;
+    }
+
+    .table {
+        margin-bottom: 30px !important;
+        width: 500px;
+        margin: auto auto;
+    }
+}

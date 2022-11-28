@@ -1,0 +1,71 @@
+<app-toast></app-toast>
+<app-loading *ngIf="showLoanding" ></app-loading>
+
+<div>
+    <app-header></app-header>
+
+    <div>
+        <a (click)="moreExpensive()">
+            <img class="img-card-curiosities" src="assets/images/mostExpensive.png" alt="Botão para visualisar carro mais caro no banco de dados">         
+        </a>
+        <a (click)="cheapest()">
+            <img class="img-card-curiosities" src="assets/images/cheapest.png" alt="Botão para visualisar carro mais barato no banco de dados">         
+        </a>
+        <a (click)="cheapest()">
+            <img class="img-card-curiosities" src="assets/images/mostExpensive.png" alt="Botão para visualisar carro mais caro no banco de dados">         
+        </a>
+        <a (click)="cheapest()">
+            <img class="img-card-curiosities" src="assets/images/cheapest.png" alt="Botão para visualisar carro mais barato no banco de dados">         
+        </a>
+        <a (click)="cheapest()">
+            <img class="img-card-curiosities" src="assets/images/cheapest.png" alt="Botão para visualisar carro mais barato no banco de dados">         
+        </a>
+    </div>
+
+    <div *ngIf="true" class="m-2 divTable">
+        <table class="table caption-top" aria-describedby="table" *ngFor="let item of response; let i = index">
+                <tbody>
+                    <tr>
+                        <th scope="row">Mês de referência</th>
+                        <td>{{ response[i].reference_month }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Código Fipe</th>
+                        <td>{{ response[i].fipe_code }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Marca</th>
+                        <td>{{ response[i].brand }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Modelo</th>
+                        <td>{{ response[i].model }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Ano modelo</th>
+                        <td>{{ response[i].model_year }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Autenticação</th>
+                        <td>{{ response[i].authentication }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Data da consulta</th>
+                        <td>{{ response[i].consultationDate }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Preço médio</th>
+                        <td>{{ response[i].average_price }}</td>
+                    </tr>
+                </tbody>
+        </table> 
+    
+        <div *ngIf="false">
+            <div class="back d-grid gap-2 col-6 mx-auto mb-3">
+                <button class="btn" type="button" (click)="back()">VOLTAR</button>
+            </div>
+        </div>
+    <div>
+
+
+</div>

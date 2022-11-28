@@ -65,11 +65,17 @@
             </select>
         </div>
 
-        <div class="d-grid gap-2 col-6 mx-auto mb-3" >
+        <div class="d-grid gap-2 col-6 mx-auto mb-3">
             <button class="btn" type="submit" [disabled]="showButton(form)">CONSULTAR</button>
         </div>
     </div>
 </form>
+
+<div class="curiosities">
+    <a (click)="curiosities()">
+        <img class="img-curiosities" src="assets/images/curiosities.png" alt="ícone curiosities click here">         
+    </a>
+</div>
 
 <div *ngIf="showForm" class="m-2 divTable">
     <table class="table caption-top" aria-describedby="table" *ngFor="let item of response; let i = index">
@@ -115,90 +121,3 @@
         </div>
     </div>
 <div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!-- <table *ngIf="showForm" class="table caption-top" aria-describedby="table">
-        <tbody>
-            <tr>
-                <th scope="row">Mês de referência</th>
-                <td>outubro de 2022</td>
-            </tr>
-            <tr>
-                <th scope="row">Código Fipe</th>
-                <td>038001-6</td>
-            </tr>
-            <tr>
-                <th scope="row">Marca</th>
-                <td>Acura</td>
-            </tr>
-            <tr>
-                <th scope="row">Ano modelo</th>
-                <td>1995 Gasolina</td>
-            </tr>
-            <tr>
-                <th scope="row">Autenticação</th>
-                <td>wcg81x9mqy</td>
-            </tr>
-            <tr>
-                <th scope="row">Data da consulta</th>
-                <td>terça-feira, 1 de novembro de 2022 16:09</td>
-            </tr>
-            <tr>
-                <th scope="row">Preço médio</th>
-                <td>R$ 45.046,00</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <table *ngIf="showForm" class="table caption-top" aria-describedby="table">
-        <tbody>
-            <tr>
-                <th scope="row">Mês de referência</th>
-                <td>outubro de 2022</td>
-            </tr>
-            <tr>
-                <th scope="row">Código Fipe</th>
-                <td>038001-6</td>
-            </tr>
-            <tr>
-                <th scope="row">Marca</th>
-                <td>Acura</td>
-            </tr>
-            <tr>
-                <th scope="row">Ano modelo</th>
-                <td>1995 Gasolina</td>
-            </tr>
-            <tr>
-                <th scope="row">Autenticação</th>
-                <td>wcg81x9mqy</td>
-            </tr>
-            <tr>
-                <th scope="row">Data da consulta</th>
-                <td>terça-feira, 1 de novembro de 2022 16:09</td>
-            </tr>
-            <tr>
-                <th scope="row">Preço médio</th>
-                <td>R$ 45.046,00</td>
-            </tr>
-        </tbody>
-    </table>
-
-
-    <div *ngIf="showForm">
-        <div class="back d-grid gap-2 col-6 mx-auto mb-3">
-            <button class="btn" type="button" (click)="back()">VOLTAR</button>
-        </div>
-    </div> -->

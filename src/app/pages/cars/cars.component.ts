@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { PagesService } from '../pages.service';
@@ -44,7 +45,8 @@ export class CarsComponent implements OnInit {
   public response: any
 
   public msg: string = ""
-  public previousPeriod: string = 'janeiro de 2010'
+  public previousPeriod: string = ""
+  public consultationDate: string = ""
 
   public period: any
   public brands: any
@@ -58,7 +60,8 @@ export class CarsComponent implements OnInit {
 
   constructor(private pagesService: PagesService, 
     private messageService: MessageService, 
-    private formatDate: FormatDate) { 
+    private formatDate: FormatDate,
+    private router: Router) { 
   }
 
   ngOnInit(): void {
@@ -203,6 +206,7 @@ export class CarsComponent implements OnInit {
       next: (res: any) => {
         this.results = res.result
         this.previousPeriod = res.previousPeriod
+        this.consultationDate = this.results[0].dataDaConsulta
       },
       error: (err: any) => {
         this.msg = 'Erro! Tente novamente!'
@@ -230,6 +234,10 @@ export class CarsComponent implements OnInit {
         this.printReports = res
       },
       complete: () => {
+        for(let i=0; i<this.printReports.length; i++) {
+          this.printReports[i].dataDaConsulta = this.consultationDate
+        }
+
         if(arq == 'pdf')
           this.printPdf(this.printReports)
         else if(arq == 'csv')  
@@ -403,5 +411,9 @@ export class CarsComponent implements OnInit {
       model: '',
       year: ''
     })
+  }
+
+  public curiosities() {
+    this.router.navigate(['/curiosities'])
   }
 }

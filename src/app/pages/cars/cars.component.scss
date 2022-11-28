@@ -46,6 +46,14 @@
         cursor: pointer;
     }
 
+    .img-curiosities {
+        cursor: pointer;
+        float: right;
+        position: relative;
+        bottom: 120px;
+        margin-right: 10px;
+    }
+
     .previousPeriod {
         margin: 15px;
     }
@@ -104,6 +112,18 @@
 
         .csv, .pdf {
             width: 50px;
+        }
+    }
+
+    @media screen and (max-width: 730px) {
+        .img-curiosities {
+            cursor: pointer;
+            float: unset;
+            position: unset;
+            bottom: unset;
+            margin-right: unset;
+            display: block;
+            margin: auto auto;
         }
     }
 }
