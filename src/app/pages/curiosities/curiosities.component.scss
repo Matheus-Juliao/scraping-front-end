@@ -20,6 +20,12 @@
         min-width: 200px;
     }
 
+    .img-question {
+        margin: auto;
+        display: block;
+        width: 400px;
+    }
+
     .table {
         margin-bottom: 30px !important;
         max-width: 500px;
@@ -47,6 +53,10 @@
             max-height: 225px;
             max-width: 300px;
             width: unset;
+        }
+
+        .img-question {
+            max-width: 320px;
         }
     }
 }

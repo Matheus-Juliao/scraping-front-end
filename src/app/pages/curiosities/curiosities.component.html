@@ -12,6 +12,9 @@
         <img *ngIf="showLessEconomical" (click)="lessEconomical()" class="img-card-curiosities"  src="assets/images/lessEconomical.png" alt="Botão para visualisar carro mais gastão">         
     </div>
 
+ 
+    <img class="img-question" *ngIf="showImgQuestion" src="assets/images/question.png" alt="Imagem selecione uma curiosidade para ver o resultado">  
+
     <p *ngIf="pMoreExpensive">Esse veículo é o mais caro cadastrado no sistema através da raspagem de dados.</p>
     <p *ngIf="pCheapest">Esse veículo é o mais barato cadastrado no sistema através da raspagem de dados.</p>
     <p *ngIf="pLessPowerful">Esse é uns dos veículos menos potentes encontrado na tabela fipe com 32 cavalos de potência.</p>

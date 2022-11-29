@@ -26,6 +26,7 @@ export class CuriositiesComponent implements OnInit {
   public pLessPowerful: boolean = false
   public pMoreEconomical: boolean = false
   public pLessEconomical: boolean = false
+  public showImgQuestion: boolean = true
 
   constructor(private pagesService: PagesService, 
     private messageService: MessageService) { 
@@ -53,6 +54,7 @@ export class CuriositiesComponent implements OnInit {
         this.pLessPowerful = false
         this.pMoreEconomical = false
         this.pLessEconomical = false
+        this.showImgQuestion = false
 
         if(window.innerWidth < 900) {
           this.showCheapest = false
@@ -83,6 +85,7 @@ export class CuriositiesComponent implements OnInit {
         this.pLessPowerful = false
         this.pMoreEconomical = false
         this.pLessEconomical = false
+        this.showImgQuestion = false
 
         if(window.innerWidth < 900) {
           this.showMoreExpensive = false
@@ -113,6 +116,7 @@ export class CuriositiesComponent implements OnInit {
         this.pCheapest = false
         this.pMoreEconomical = false
         this.pLessEconomical = false
+        this.showImgQuestion = false
 
         if(window.innerWidth < 900) {
           this.showMoreExpensive = false
@@ -143,6 +147,7 @@ export class CuriositiesComponent implements OnInit {
         this.pCheapest = false
         this.pLessPowerful = false
         this.pLessEconomical = false
+        this.showImgQuestion = false
 
         if(window.innerWidth < 900) {
           this.showMoreExpensive = false
@@ -173,6 +178,7 @@ export class CuriositiesComponent implements OnInit {
         this.pCheapest = false
         this.pLessPowerful = false
         this.pMoreEconomical = false
+        this.showImgQuestion = false
 
         if(window.innerWidth < 900) {
           this.showMoreExpensive = false
@@ -196,6 +202,7 @@ export class CuriositiesComponent implements OnInit {
     this.pLessPowerful = false
     this.pMoreEconomical = false
     this.pLessEconomical = false
+    this.showImgQuestion = true
   }
 
   private showError(msg: string) {
