@@ -31,6 +31,7 @@ export class CarsComponent implements OnInit {
 
   public showLoanding: boolean = false
   public showForm: boolean = false
+  public showCuriosities: boolean = true
   
   public hidefinalReference: boolean = true
   public hideModelYear: boolean = true
@@ -224,6 +225,7 @@ export class CarsComponent implements OnInit {
         this.response = this.results
         this.showForm = true
         this.showLoanding = false
+        this.showCuriosities = false
       }
     })
   }
@@ -248,7 +250,7 @@ export class CarsComponent implements OnInit {
 
   private printCsv(printReports: any) {
 
-    let csvContent = "data:text/csv;charset=utf-8,";
+    let csvContent: any;
     let response: any = []
 
     for(let row of printReports) {
@@ -264,7 +266,11 @@ export class CarsComponent implements OnInit {
 
     let j = 0;
     for(let i=0; i<response.length; i++) {
-      csvContent = csvContent + this.desc[j] + response[i] + "\n";  
+      if(i == 0)
+        csvContent = this.desc[j] + response[i] + "\n";  
+      else
+        csvContent = csvContent + this.desc[j] + response[i] + "\n";
+
       if(j == 7) {
         csvContent = csvContent + "\n"; 
         j=-1
@@ -273,9 +279,8 @@ export class CarsComponent implements OnInit {
       j++
     }
 
-    let encodedUri = encodeURI(csvContent, );
     let link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
+    link.setAttribute("href", "data:text/csv;charset=utf-8,%EF%BB%BF" + encodeURI(csvContent));
     link.setAttribute("download", "reports.csv");
     document.body.appendChild(link); 
     link.click();

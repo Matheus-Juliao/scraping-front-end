@@ -71,7 +71,7 @@
     </div>
 </form>
 
-<div class="curiosities">
+<div *ngIf="showCuriosities" class="curiosities">
     <a (click)="curiosities()">
         <img class="img-curiosities" src="assets/images/curiosities.png" alt="ícone curiosities click here">         
     </a>
