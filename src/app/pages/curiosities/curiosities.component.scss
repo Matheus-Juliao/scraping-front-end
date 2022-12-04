@@ -18,12 +18,22 @@
         border-radius: 12px;
         margin: auto auto;
         min-width: 200px;
+        margin-bottom: 10px;
     }
 
     .img-question {
         margin: auto;
         display: block;
         width: 400px;
+    }
+
+    .pdf {
+        cursor: pointer;
+        width: 40px;
+    }
+
+    .divPdf {
+        text-align: center;
     }
 
     .table {

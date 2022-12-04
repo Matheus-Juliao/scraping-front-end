@@ -7,15 +7,14 @@
     <div class="filterPrint">
         <select name="filter" class="form-control-lg text-center selectFilter" aria-label="Filtrar pelo mês" ngModel [disabled]="false">
             <option value="" disabled selected>Filtrar pelo mês</option>
-            <!-- <option *ngFor="let item of brands" [value]="item.Value">{{ item.Label }}</option> -->
         </select>
         
         <a (click)="print('csv')">
-            <img class="img-responsive csv" src="assets/images/csv.png" alt="ícone csv">         
+            <img class="csv" src="assets/images/csv.png" alt="ícone csv" title="csv">         
         </a>
         
         <a (click)="print('pdf')">
-            <img class="img-responsive pdf" src="assets/images/pdf.png" alt="ícone pdf">
+            <img class="pdf" src="assets/images/pdf.png" alt="ícone pdf" title="pdf">
         </a>
     </div>
 
@@ -73,7 +72,7 @@
 
 <div *ngIf="showCuriosities" class="curiosities">
     <a (click)="curiosities()">
-        <img class="img-curiosities" src="assets/images/curiosities.png" alt="ícone curiosities click here">         
+        <img class="img-curiosities" src="assets/images/curiosities.png" alt="ícone curiosities click here" title="Curiosidades">         
     </a>
 </div>
 

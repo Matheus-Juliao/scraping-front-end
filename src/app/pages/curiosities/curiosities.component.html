@@ -21,6 +21,26 @@
     <p *ngIf="pMoreEconomical">Esse é uns dos veículos mais econômicos encontrado na tabela fipe. Seu sistema hibrido garante uma média de 42,6 Km/l na cidade.</p>
     <p *ngIf="pLessEconomical" >Esse é uns dos veículos mais gastões encontrado na tabela fipe com uma média de 2,3 Km/l na cidade.</p>
 
+    <div class="divPdf" *ngIf="pMoreExpensive" (click)="print('moreExpensive')">
+        <img class="pdf" src="assets/images/pdf.png" alt="ícone pdf" title="pdf">
+    </div>
+
+    <div class="divPdf" *ngIf="pCheapest" (click)="print('cheapest')">
+        <img class="pdf" src="assets/images/pdf.png" alt="ícone pdf" title="pdf">
+    </div>
+
+    <div class="divPdf" *ngIf="pLessPowerful" (click)="print('lessPowerful')">
+        <img class="pdf" src="assets/images/pdf.png" alt="ícone pdf" title="pdf">
+    </div>
+
+    <div class="divPdf" *ngIf="pMoreEconomical" (click)="print('moreEconomical')">
+        <img class="pdf" src="assets/images/pdf.png" alt="ícone pdf" title="pdf">
+    </div>
+
+    <div class="divPdf" *ngIf="pLessEconomical" (click)="print('lessEconomical')">
+        <img class="pdf" src="assets/images/pdf.png" alt="ícone pdf" title="pdf">
+    </div>
+
     <div *ngIf="showTable" class="m-2 divTable">
         <table class="table caption-top" aria-describedby="table" *ngFor="let item of response; let i = index">
                 <tbody>

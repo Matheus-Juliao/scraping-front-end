@@ -286,7 +286,7 @@ export class CarsComponent implements OnInit {
     link.click();
   }
 
-  private printPdf(printReports: any) {
+  public printPdf(printReports: any) {
     const doc = new jsPDF(); 
     const totalPages = (printReports.length % 2 == 0) ? printReports.length / 2 : printReports.length / 2 + 0.5;
 
@@ -386,6 +386,7 @@ export class CarsComponent implements OnInit {
     this.hideModelYear = true
     this.hideBrand = true
     this.showForm = false
+    this.showCuriosities = true
   }
 
   private clearfinalReference(form: NgForm) {

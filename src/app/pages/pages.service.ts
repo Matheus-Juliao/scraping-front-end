@@ -41,6 +41,12 @@ export class PagesService {
     )
   }
 
+  public postPrintView(endPoint: string): Observable<any> {
+    return this.http.post<any>(`${this.url}${endPoint}`, null).pipe(
+      res => res
+    )
+  }
+
   public postMoreExpensive(): Observable<any> {
     return this.http.post<any>(`${this.url}moreExpensive`, null).pipe(
       res => res
